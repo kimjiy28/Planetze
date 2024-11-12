@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "940952784703",
+    "firebase_url": "https://planetze-4ccca-default-rtdb.firebaseio.com",
+    "project_id": "planetze-4ccca",
+    "storage_bucket": "planetze-4ccca.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940952784703:android:6247773853a78906730d8a",
+        "android_client_info": {
+          "package_name": "com.example.planetze"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6n3pxCqZW0xGd-2d_6RQzOhmOVZZ3x4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
