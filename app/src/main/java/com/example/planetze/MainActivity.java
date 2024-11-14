@@ -1,37 +1,50 @@
 package com.example.planetze;
 
 import android.os.Bundle;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.planetze.ui.dashboard.HabitAdapter;
+import com.example.planetze.repository.HabitRepository;
+import com.example.planetze.ui.dashboard.Habit;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.example.planetze.databinding.ActivityMainBinding;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    private RecyclerView recyclerView;
+    private HabitAdapter habitAdapter;
+    private HabitRepository habitRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        // Initialize HabitAdapter with an empty list initially
+        habitAdapter = new HabitAdapter(new ArrayList<>());
+        recyclerView.setAdapter(habitAdapter);
+
+        // Initialize HabitRepository and fetch data
+        habitRepository = new HabitRepository();
+        habitRepository.fetchHabits(new HabitRepository.HabitFetchCallback() {
+            @Override
+            public void onSuccess(List<Habit> habits) {
+                habitAdapter = new HabitAdapter(habits);
+                recyclerView.setAdapter(habitAdapter);
+                habitAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                // Handle the error, e.g., show a toast or log the error
+            }
+        });
     }
-
 }
