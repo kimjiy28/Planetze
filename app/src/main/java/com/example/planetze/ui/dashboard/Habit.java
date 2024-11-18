@@ -1,3 +1,5 @@
+package com.example.planetze.ui.dashboard;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +9,9 @@ public class Habit {
     private String category;
     private int impactLevel; // Higher numbers mean greater impact
 
+
     // Constructor
+    public Habit() {}
     public Habit(String name, String description, String category, int impactLevel) {
         this.name = name;
         this.description = description;
