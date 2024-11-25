@@ -1,21 +1,21 @@
 package com.example.planetze.repository;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+//import com.google.firebase.firestore.FirebaseFirestore;
+//import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.planetze.ui.dashboard.Habit;
 
 public class HabitRepository {
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public interface HabitFetchCallback {
         void onSuccess(List<Habit> habits);
         void onFailure(Exception e);
     }
 
-    public void fetchHabits(HabitFetchCallback callback) {
+    /*public void fetchHabits(HabitFetchCallback callback) {
         db.collection("habits")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -30,6 +30,6 @@ public class HabitRepository {
                         callback.onFailure(task.getException());
                     }
                 });
-    }
+    }*/
 
 }
