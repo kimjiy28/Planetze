@@ -73,23 +73,55 @@ public class HabitActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
     private void deleteHabit(Habit habit) {
         if (habit.getId() == null) {
             Toast.makeText(this, "Unable to delete habit. Missing ID.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Remove habit from Firebase
-        habitsRef.child(habit.getId()).removeValue()
+        // References to Firebase
+        DatabaseReference userHabitsRef = FirebaseDatabase.getInstance().getReference("habits");
+        DatabaseReference preexistingHabitsRef = FirebaseDatabase.getInstance().getReference("preexistingHabits");
+
+        // Remove habit from user's habit list
+        userHabitsRef.child(habit.getId()).removeValue()
                 .addOnSuccessListener(unused -> {
-                    // Remove habit from local list and update RecyclerView
-                    habitList.remove(habit);
-                    habitAdapter.notifyDataSetChanged();
-                    Toast.makeText(this, "Habit deleted successfully!", Toast.LENGTH_SHORT).show();
+                    // Check the existing habit data in preexistingHabits
+                    preexistingHabitsRef.child(habit.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                // Retrieve the full habit data
+                                Map<String, Object> existingHabitData = (Map<String, Object>) dataSnapshot.getValue();
+
+                                if (existingHabitData != null) {
+                                    // Update only the "status" field
+                                    existingHabitData.put("status", "available");
+
+                                    // Write back the updated data
+                                    preexistingHabitsRef.child(habit.getId()).setValue(existingHabitData)
+                                            .addOnSuccessListener(aVoid -> {
+                                                habitList.remove(habit); // Remove from local list
+                                                habitAdapter.notifyDataSetChanged(); // Refresh RecyclerView
+                                                Toast.makeText(HabitActivity.this, "Habit deleted and status reset to available!", Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Log.e("HabitActivity", "Failed to reset habit data", e);
+                                                Toast.makeText(HabitActivity.this, "Failed to reset habit data", Toast.LENGTH_SHORT).show();
+                                            });
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.e("HabitActivity", "Failed to read habit data", databaseError.toException());
+                            Toast.makeText(HabitActivity.this, "Failed to reset habit data", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("HabitActivity", "Error deleting habit", e);
+                    Log.e("HabitActivity", "Error deleting habit from user's list", e);
                     Toast.makeText(this, "Failed to delete habit", Toast.LENGTH_SHORT).show();
                 });
     }

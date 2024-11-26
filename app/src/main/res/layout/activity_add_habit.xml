@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <!-- Back Button -->
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
@@ -10,27 +12,32 @@
         android:text="Back"
         android:layout_gravity="start" />
 
+    <!-- Title TextView -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Choose a Habit"
         android:textSize="20sp"
+        android:layout_gravity="center"
         android:layout_margin="16dp" />
 
+    <!-- Empty State TextView -->
+    <TextView
+        android:id="@+id/emptyStateText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="All habits have been added"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:layout_marginTop="16dp" />
+
+    <!-- RecyclerView for Habit List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/preexistingHabitsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 </LinearLayout>
