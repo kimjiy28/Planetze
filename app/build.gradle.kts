@@ -56,4 +56,7 @@ dependencies {
     // Firebase Products
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-auth")
+    // Firebase Products
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
 }

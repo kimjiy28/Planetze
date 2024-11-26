@@ -1,50 +1,72 @@
 package com.example.planetze.ui.dashboard;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Habit {
-    private String name;
-    private String description;
-    private String category;
-    private int impactLevel; // Higher numbers mean greater impact
+    private String id; // Firestore document ID
+    private String name; // Name of the habit
+    private String description; // Description of the habit
+    private String category; // Category of the habit
+    private int impactLevel; // Impact level (e.g., High, Medium, Low)
+    private int daysCompleted; // Number of days the habit has been completed
 
+    // No-argument constructor required for Firestore
+    public Habit() {
+    }
 
     // Constructor
-    public Habit() {}
-    public Habit(String name, String description, String category, int impactLevel) {
+    public Habit(String name, String description, String category, int impactLevel, int daysCompleted) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.impactLevel = impactLevel;
+        this.daysCompleted = daysCompleted;
     }
 
-    // Getters
+    // Getters and setters
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getCategory() {
         return category;
     }
 
-    public int getImpactLevel() {
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Integer getImpactLevel() {
         return impactLevel;
     }
 
-    // Method to get a list of suggested habits
-    public static List<Habit> getSuggestedHabits() {
-        List<Habit> habits = new ArrayList<>();
-        habits.add(new Habit("Walk or bike instead of driving", "Reduce carbon emissions by avoiding car use.", "Transportation", 5));
-        habits.add(new Habit("Use a reusable water bottle", "Reduce plastic waste.", "Consumption", 3));
-        habits.add(new Habit("Turn off lights when not in use", "Save energy by reducing electricity consumption.", "Energy", 4));
-        habits.add(new Habit("Recycle regularly", "Reduce waste by recycling items whenever possible.", "Waste Management", 4));
-        habits.add(new Habit("Use public transport", "Reduce emissions by using buses and trains instead of personal vehicles.", "Transportation", 4));
-        // Add more habits as needed
-        return habits;
+    public void setImpactLevel(Integer impactLevel) {
+        this.impactLevel = impactLevel;
+    }
+
+    public int getDaysCompleted() {
+        return daysCompleted;
+    }
+
+    public void setDaysCompleted(int daysCompleted) {
+        this.daysCompleted = daysCompleted;
     }
 }
