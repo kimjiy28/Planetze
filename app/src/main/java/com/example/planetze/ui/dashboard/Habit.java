@@ -7,7 +7,6 @@ public class Habit {
     private String category; // Category of the habit
     private int impactLevel; // Impact level (e.g., High, Medium, Low)
     private int daysCompleted; // Number of days the habit has been completed
-    private String status;
 
     // No-argument constructor required for Firestore
     public Habit() {
@@ -33,13 +32,6 @@ public class Habit {
 
     public String getName() {
         return name;
-    }
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public void setName(String name) {

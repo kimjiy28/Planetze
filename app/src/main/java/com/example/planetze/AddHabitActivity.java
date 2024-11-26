@@ -2,8 +2,6 @@ package com.example.planetze;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -57,78 +55,46 @@ public class AddHabitActivity extends AppCompatActivity {
 
     }
 
-private void fetchPreexistingHabits() {
-    preexistingHabitsRef.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            preexistingHabitList.clear(); // Clear the list before adding updated data
+    private void fetchPreexistingHabits() {
+        preexistingHabitsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                preexistingHabitList.clear();
 
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Habit habit = snapshot.getValue(Habit.class);
-
-                if (habit != null && "available".equals(habit.getStatus())) {
-                    habit.setId(snapshot.getKey()); // Set the Firebase key as the habit ID
-                    preexistingHabitList.add(habit);
+                // Loop through preexisting habits
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Habit habit = snapshot.getValue(Habit.class);
+                    if (habit != null) {
+                        preexistingHabitList.add(habit);
+                    }
                 }
+
+                // Notify adapter
+                preexistingHabitAdapter.notifyDataSetChanged();
             }
 
-            preexistingHabitAdapter.notifyDataSetChanged(); // Refresh the RecyclerView
-            toggleEmptyState(); // Show/hide the "All habits added" message
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-            Log.e("AddHabitActivity", "Failed to fetch habits", databaseError.toException());
-        }
-    });
-}
-
-
-
-    private void toggleEmptyState() {
-        TextView emptyStateText = findViewById(R.id.emptyStateText);
-        RecyclerView recyclerView = findViewById(R.id.preexistingHabitsRecyclerView);
-
-        if (preexistingHabitList.isEmpty()) {
-            emptyStateText.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            emptyStateText.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Firebase", "Failed to fetch preexisting habits", databaseError.toException());
+            }
+        });
     }
 
-
     private void addHabitToUser(Habit habit) {
-        if (habit.getId() == null) {
-            Toast.makeText(this, "Unable to add habit. Missing ID.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Reference to the user's habits
         DatabaseReference userHabitsRef = FirebaseDatabase.getInstance().getReference("habits");
 
-        // Update user's habits
-        userHabitsRef.child(habit.getId()).setValue(habit)
+        userHabitsRef.push().setValue(habit)
                 .addOnSuccessListener(aVoid -> {
-                    // Update status in preexistingHabits
-                    preexistingHabitsRef.child(habit.getId()).child("status").setValue("added")
-                            .addOnSuccessListener(unused -> {
-                                preexistingHabitList.remove(habit); // Remove from local list
-                                preexistingHabitAdapter.notifyDataSetChanged(); // Refresh RecyclerView
-                                Toast.makeText(this, "Habit added successfully!", Toast.LENGTH_SHORT).show();
-                            })
-                            .addOnFailureListener(e -> {
-                                Log.e("AddHabitActivity", "Failed to update habit status", e);
-                                Toast.makeText(this, "Failed to update habit status", Toast.LENGTH_SHORT).show();
-                            });
+                    preexistingHabitList.remove(habit);
+
+                    // Notify the adapter that the data has changed
+                    preexistingHabitAdapter.notifyDataSetChanged();
+                    Toast.makeText(this, "Habit added successfully!", Toast.LENGTH_SHORT).show();
+                    //finish(); // Close AddHabitActivity
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("AddHabitActivity", "Failed to add habit to user", e);
+                    Log.e("Firebase", "Failed to add habit to user", e);
                     Toast.makeText(this, "Failed to add habit", Toast.LENGTH_SHORT).show();
                 });
     }
-
-
-
 }
