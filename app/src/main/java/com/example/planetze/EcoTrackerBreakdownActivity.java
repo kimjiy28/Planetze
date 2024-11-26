@@ -6,17 +6,16 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class EcoTrackerBreakdownActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_eco_tracker_breakdown);
     }
 
-    public void launchEcoTracker(View v) {
-        Intent ecotracker = new Intent(this, EcoTrackerActivity.class);
-        startActivity(ecotracker);
+    public void launchRecord(View v) {
+        Intent record = new Intent(this, RecordActivity.class);
+        startActivity(record);
     }
-
 }
