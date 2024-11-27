@@ -13,19 +13,7 @@
         android:theme="@style/Theme.Planetze"
         tools:targetApi="31">
         <activity
-            android:name=".ConsumptionRecordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FoodRecord"
-            android:exported="false" />
-        <activity
-            android:name=".TransportationRecord"
-            android:exported="false" />
-        <activity
             android:name=".RecordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EcoTrackerBreakdownActivity"
             android:exported="false" />
         <activity
             android:name=".EcoTrackerActivity"

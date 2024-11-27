@@ -57,4 +57,6 @@ dependencies {
     // Firebase Products
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-auth")
+
+    implementation("com.github.cjhandroid:WaveProgressBar:v1.0.0")
 }

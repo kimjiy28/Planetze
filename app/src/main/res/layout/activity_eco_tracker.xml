@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -9,18 +9,61 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:onClick="launchEcoTrackerBreakdown">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button"
+        <EditText
+            android:id="@+id/calendarManagement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="launchEcoTrackerBreakdown"
-            android:text="breakdown"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:hint="Select a Date (dd/mm/yyyy)"
+            android:textAlignment="center"
+            android:textColor="@color/darkblue"
+            android:textSize="30sp"
+            android:textStyle="italic"
+            android:focusable="false"
+            app:layout_constraintBottom_toTopOf="@+id/dailyEmission"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dailyEmission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/darkblue"
+            android:text="@string/dailyemission"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/waveProgressBar"
+            app:layout_constraintTop_toBottomOf="@id/calendarManagement"
+            app:text_size="50sp" />
+
+        <cjh.WaveProgressBarlibrary.WaveProgressBar
+            android:id="@+id/waveProgressBar"
+            android:layout_width="300sp"
+            android:layout_height="300sp"
+            app:arc_color="#fff"
+            app:behind_wave_color="@color/green"
+            app:cavans_bg="#fff"
+            app:front_wave_color="@color/lightgreen"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/ecoRecyclerView"
+            app:layout_constraintTop_toBottomOf="@+id/dailyEmission"
+            app:progress="45"
+            app:shape="circle"
+            app:text_size="20sp"
+            tools:layout_editor_absoluteX="55dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ecoRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/waveProgressBar"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>

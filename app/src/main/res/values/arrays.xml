@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="options_list">
+        <item> Drive Personal Vehicle </item>
+        <item> Take Public Transportation </item>
+        <item> Cycling or Walking </item>
+        <item> Flight </item>
+    </string-array>
+</resources>

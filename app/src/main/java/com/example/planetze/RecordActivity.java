@@ -30,28 +30,4 @@ public class RecordActivity extends AppCompatActivity {
          */
         ref = db.getReference("users").child("X8cKomTutObPCZf5aXyhM2xwnUJ2");
     }
-
-    public void getDate(View v) {
-
-    }
-
-
-    // Intents
-    public void launchTransportation(View v) {
-        Intent transportation = new Intent(this, TransportationRecordActivity.class);
-        transportation.putExtra("date", date);
-        startActivity(transportation);
-    }
-
-    public void launchFood(View v) {
-        Intent food = new Intent(this, FoodRecordActivity.class);
-        food.putExtra("date", date);
-        startActivity(food);
-    }
-
-    public void launchConsumption(View v) {
-        Intent consumption = new Intent(this, ConsumptionRecordActivity.class);
-        consumption.putExtra("date", date);
-        startActivity(consumption);
-    }
 }
