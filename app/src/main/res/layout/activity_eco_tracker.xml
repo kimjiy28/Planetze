@@ -15,7 +15,7 @@
             android:id="@+id/calendarManagement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Select a Date (dd/mm/yyyy)"
+            android:hint="@string/select_a_date_dd_mm_yyyy"
             android:textAlignment="center"
             android:textColor="@color/darkblue"
             android:textSize="30sp"
@@ -48,19 +48,18 @@
             app:behind_wave_color="@color/green"
             app:cavans_bg="#fff"
             app:front_wave_color="@color/lightgreen"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/ecoRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dailyEmission"
             app:progress="45"
             app:shape="circle"
-            app:text_size="20sp"
-            tools:layout_editor_absoluteX="55dp" />
+            app:text_size="20sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ecoRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             app:layout_constraintTop_toBottomOf="@id/waveProgressBar"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

@@ -33,23 +33,61 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class EcoTrackerActivity extends AppCompatActivity {
 
-    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    // DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child("X8cKomTutObPCZf5aXyhM2xwnUJ2");
     int progress = 0;
     boolean started = true;
-
-    private String date;
     private int dailyEmission;
     private ArrayList<Breakdown> activityList;
     private BreakdownAdapter adapter;
+
+    // View
+    EditText calendarManagement;
+    TextView textView;
+    WaveProgressBar waveProgressBar;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eco_tracker);
 
-        // Selecting Date
-        EditText calendarManagement = findViewById(R.id.calendarManagement);
+        // Initialize Views
+        calendarManagement = findViewById(R.id.calendarManagement);
+        textView = findViewById(R.id.dailyEmission);
+        waveProgressBar = findViewById(R.id.waveProgressBar);
+        recyclerView = findViewById(R.id.ecoRecyclerView);
+
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (started) {
+                    progress++;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            waveProgressBar.setProgress(progress);
+                        }
+                    });
+                    if (progress == 45) {
+                        started = !started;
+                    }
+                }
+            }
+        };
+
+        timer.schedule(timerTask, 0, 80);
+        waveProgressBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress = 0;
+                started = !started;
+            }
+        });
+
+        // Calendar Management
         calendarManagement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,46 +99,14 @@ public class EcoTrackerActivity extends AppCompatActivity {
                 DatePickerDialog picker = new DatePickerDialog(EcoTrackerActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        date = Integer.toString(year * 10000 + (month + 1) * 100 + dayOfMonth);
+                        String date = Integer.toString(year * 10000 + (month + 1) * 100 + dayOfMonth);
                         calendarManagement.setText(year + "/" + (month + 1) + "/" + dayOfMonth);
+                        reference = reference.child(date);
 
-                        // TODO: consider cases where data for the selected date doesn't exist.
-                        WaveProgressBar waveProgressBar = findViewById(R.id.waveProgressBar);
-                        Timer timer = new Timer();
-                        TimerTask timerTask = new TimerTask() {
-                            @Override
-                            public void run() {
-                                if (started) {
-                                    progress++;
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            waveProgressBar.setProgress(progress);
-                                        }
-                                    });
-                                    if (progress == 45) {
-                                        started = !started;
-                                    }
-                                }
-                            }
-                        };
-
-                        timer.schedule(timerTask, 0, 80);
-                        waveProgressBar.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                progress = 0;
-                                started = !started;
-                            }
-                        });
-
-                        // TODO: setText not working properly
+                        // Display Carbon Emission Footprint
                         fetchDailyEmission();
-                        TextView textView = findViewById(R.id.dailyEmission);
-                        textView.setText(Integer.toString(dailyEmission));
 
                         // Display Breakdown of Activities
-                        RecyclerView recyclerView = findViewById(R.id.ecoRecyclerView);
                         recyclerView.setLayoutManager(new LinearLayoutManager(EcoTrackerActivity.this));
                         activityList = new ArrayList<Breakdown>();
                         adapter = new BreakdownAdapter(EcoTrackerActivity.this, activityList);
@@ -114,12 +120,14 @@ public class EcoTrackerActivity extends AppCompatActivity {
     }
 
     private void fetchDailyEmission() {
-        // ref.child(user.getUid()).child(date).child("emission");
-        DatabaseReference ref = reference.child("X8cKomTutObPCZf5aXyhM2xwnUJ2").child(date).child("dailyEmission");
+        DatabaseReference ref = reference.child("dailyEmission");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dailyEmission = snapshot.getValue(Integer.class);
+                if (snapshot.getValue() != null) {
+                    dailyEmission = snapshot.getValue(Integer.class);
+                    textView.setText(Integer.toString(dailyEmission));
+                }
             }
 
             @Override
@@ -129,8 +137,7 @@ public class EcoTrackerActivity extends AppCompatActivity {
         });
     }
     private void fetchBreakdown() {
-        // ref.child(user.getUid()).child(date).child("emission");
-        DatabaseReference ref = reference.child("X8cKomTutObPCZf5aXyhM2xwnUJ2").child(date).child("activities");
+        DatabaseReference ref = reference.child("activities");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
