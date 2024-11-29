@@ -60,6 +60,12 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         return habitList.size();
     }
 
+    public void updateHabitList(List<Habit> newHabitList) {
+        this.habitList.clear();
+        this.habitList.addAll(newHabitList);
+        notifyDataSetChanged(); // Notify the RecyclerView to refresh
+    }
+
     static class HabitViewHolder extends RecyclerView.ViewHolder {
 
         TextView nameTextView, daysTextView;
