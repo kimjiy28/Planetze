@@ -376,6 +376,33 @@ public class MainActivity extends AppCompatActivity {
     private double calculateHousingCO2() {
         double consumptionCO2 = 0;
 
+        int housingType = -1;
+        /*id for housing type based on excel sheets:
+        0- Detached house under 1000 sq. ft.
+        1- Detached house 1000-2000 sq. ft.
+        2- Detached house over 2000 sq. ft.
+        3- Semi-detached house under 1000 sq. ft.
+        4- Semi-detached house 1000-2000 sq. ft.
+        5- Semi-detached house over 2000 sq. ft.
+        6- Townhouse under 1000 sq. ft.
+        7- Townhouse 1000-2000 sq. ft.
+        8- Townhouse over 2000 sq. ft.
+        9- Condo/Apartment 1000 sq. ft.
+        10- Condo/Apartment 1000-2000 sq. ft.
+        11- Condo/Apartment over 2000 sq. ft.
+        Other housing type has similar calculations with townhouse
+         */
+
+        int homeHeatType = -1;
+        int waterHeatType = -1;
+        /*id for heating type for comparison
+        0- Natural Gas
+        1- Electricity
+        2- Oil
+        3- Propane
+        4- Wood
+         */
+
         int q11Id = question11Group.getCheckedRadioButtonId();
         int q12Id = question12Group.getCheckedRadioButtonId();
         int q13Id = question13Group.getCheckedRadioButtonId();
@@ -391,7 +418,2588 @@ public class MainActivity extends AppCompatActivity {
         RadioButton q15Button = findViewById(q15Id);
         RadioButton q16Button = findViewById(q16Id);
         RadioButton q17Button = findViewById(q17Id);
-        return 0;
+
+        if (q11Button != null) {
+            String ans11 = q11Button.getText().toString();
+            String ans12 = q12Button.getText().toString();
+            String ans13 = q13Button.getText().toString();
+            String ans14 = q14Button.getText().toString();
+            String ans15 = q15Button.getText().toString();
+            String ans16 = q16Button.getText().toString();
+
+            //get housing type id
+            if (ans11.equals("Detached house")) {
+                if (ans13.equals("Under 1000 sq. ft.")) {
+                    housingType = 0;
+                } else if (ans13.equals("1000-2000 sq. ft.")) {
+                    housingType = 1;
+                } else if (ans13.equals("Over 2000 sq. ft")) {
+                    housingType = 2;
+                }
+            } else if (ans11.equals("Semi-detached house")) {
+                if (ans13.equals("Under 1000 sq. ft.")) {
+                    housingType = 3;
+                } else if (ans13.equals("1000-2000 sq. ft.")) {
+                    housingType = 4;
+                } else if (ans13.equals("Over 2000 sq. ft")) {
+                    housingType = 5;
+                }
+            } else if (ans11.equals("Townhouse") || ans11.equals("Other")) {
+                if (ans13.equals("Under 1000 sq. ft.")) {
+                    housingType = 6;
+                } else if (ans13.equals("1000-2000 sq. ft.")) {
+                    housingType = 7;
+                } else if (ans13.equals("Over 2000 sq. ft")) {
+                    housingType = 8;
+                }
+            } else if (ans11.equals("Condo/Apartment")) {
+                if (ans13.equals("Under 1000 sq. ft.")) {
+                    housingType = 9;
+                } else if (ans13.equals("1000-2000 sq. ft.")) {
+                    housingType = 10;
+                } else if (ans13.equals("Over 2000 sq. ft")) {
+                    housingType = 11;
+                }
+            }
+
+            //get home heating type
+            if (ans14.equals("Natural Gas")) {
+                homeHeatType = 0;
+            } else if (ans14.equals("Electricity")) {
+                homeHeatType = 1;
+            } else if (ans14.equals("Oil")) {
+                homeHeatType = 2;
+            } else if (ans14.equals("Propane")) {
+                homeHeatType = 3;
+            } else if (ans14.equals("Wood")) {
+                homeHeatType = 4;
+            }
+
+            //get water heating type
+            if (ans16.equals("Natural Gas")) {
+                waterHeatType = 0;
+            } else if (ans16.equals("Electricity")) {
+                waterHeatType = 1;
+            } else if (ans16.equals("Oil")) {
+                waterHeatType = 2;
+            } else if (ans16.equals("Propane")) {
+                waterHeatType = 3;
+            } else if (ans16.equals("Wood")) {
+                waterHeatType = 4;
+            }
+
+            //Add 233kg to calculation if home and water heating sources are different
+            if (homeHeatType != waterHeatType) {
+                consumptionCO2 += 233;
+            }
+
+            if (housingType == 0) {
+                if (ans15.equals("Under $50")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2400;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2100;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 2870;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2170;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2600;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 250;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2650;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3470;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2370;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2700;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 380;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4370;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2670;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 450;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5270;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2970;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$50-$100")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2440;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 400;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4400;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2340;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2640;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4600;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2540;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2940;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 550;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4900;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2840;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3240;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3140;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$100-150")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2610;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6100;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5400;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2510;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2810;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1450;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6250;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5600;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2710;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3110;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5900;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3010;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3410;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 180;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6950;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3310;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$150-$200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2780;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1700;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 7200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6400;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2680;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2980;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1900;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 7400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6600;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2880;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3280;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2050;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 7700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6900;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3180;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3580;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3480;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("Over $200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3100;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 740;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3000;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3100;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7600;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3200;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3600;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2700;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7900;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3500;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3900;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 9000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 8200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3800;
+                            }
+                            break;
+                    }
+                }
+            } else if (housingType == 1) {
+                if (ans15.equals("Under $50")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3770;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3670;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 380;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4470;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4170;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3380;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5670;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4870;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3860;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5350;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6570;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5670;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$50-$100")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 5900;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5300;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3940;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3840;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6100;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5440;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4640;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4340;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6400;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1050;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5740;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5040;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6700;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6100;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6740;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5840;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$100-150")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7100;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4010;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6700;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1450;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7230;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4510;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7400;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5210;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7300;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 7000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7550;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6010;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$150-$200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7100;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 7200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4280;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4180;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7300;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 7400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4980;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4680;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7600;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2250;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 7700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5985;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5380;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7900;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2400;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7080;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6180;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("Over $200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8300;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2400;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4600;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4500;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5300;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5000;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6350;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5750;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 9100;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3100;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 9000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7400;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6500;
+                            }
+                            break;
+                    }
+                }
+            } else if (housingType == 2) {
+                if (ans15.equals("Under $50")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 320;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5570;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4170;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2880;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 450;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6170;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4670;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 520;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 7000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6970;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5270;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3230;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 675;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8900;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7970;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6170;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$50-$100")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 10500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5740;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4340;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 900;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 11000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6340;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4840;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 12500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7240;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5640;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 14000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 8140;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6340;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$100-150")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 14000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5800;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4510;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3400;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2100;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 15500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6410;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5010;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3700;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 16250;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7300;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5710;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 4000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2700;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 17500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 8230;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6510;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$150-$200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3400;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2700;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 17500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5852;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4680;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3600;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3100;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 18100;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6560;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5180;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 4100;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3400;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 20000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7600;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5980;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 4400;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 21000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 8300;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6680;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("Over $200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3600;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 21000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6100;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5000;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 22000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7890;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6250;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 4100;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 4000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 23500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7890;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6250;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 4400;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 4200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 25000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 8710;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 7000;
+                            }
+                            break;
+                    }
+                }
+            } else if (housingType == 3) {
+                if (ans15.equals("Under $50")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2160;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 2200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2100;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2349;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 410;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2592;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 2300;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2450;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2732;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2680;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 2450;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2700;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3199;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 580;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2750;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 2600;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3000;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$50-$100")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2400;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 410;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 2600;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3000;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2600;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3100;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3500;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2900;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 560;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3300;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3100;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3500;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3600;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3400;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3800;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$100-150")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2600;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1210;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3200;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1450;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3400;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3100;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1620;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3300;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3700;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3400;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1820;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3600;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4000;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$150-$200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1700;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3400;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1900;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3600;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3300;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3500;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3900;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3300;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4200;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("Over $200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3600;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3600;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3400;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3800;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3900;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3700;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4100;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4400;
+                            }
+                            break;
+                    }
+                }
+            } else if (housingType == 4) {
+                if (ans15.equals("Under $50")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2443;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 1500;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2727;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 410;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3499;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4300;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 1800;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3151;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 550;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3599;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4700;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2100;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3578;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 605;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3700;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4900;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2500;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$50-$100")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 4000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2500;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 5200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4600;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2700;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1050;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5100;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7300;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3500;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 8000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4000;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$100-150")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 4500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6100;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4100;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1550;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6900;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 8000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4300;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1700;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 7300;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 9100;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4850;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 10000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5500;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$150-$200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 5000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 9000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5500;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 10200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6000;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2250;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 9200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 11000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6800;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 10000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2400;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 10550;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 12000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 7100;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("Over $200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2400;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 10550;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 12000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 7220;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 10900;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 13200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 8000;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 9800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 11200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 14100;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 8600;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 11000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 12000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 15000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 9100;
+                            }
+                            break;
+                    }
+                }
+            } else if (housingType == 5) {
+                if (ans15.equals("Under $50")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2821;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3820;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4370;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3970;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3010;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 560;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4870;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4470;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3261;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 890;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4307;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5670;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5270;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3578;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6370;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5970;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$50-$100")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4540;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4140;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1400;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5040;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4640;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 10800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1650;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 7200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5840;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5340;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 12500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6540;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6140;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$100-150")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 10000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 8500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4710;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4310;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 12000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 9200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5210;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4810;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 14000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 10200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6010;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5610;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 15000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2400;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 11000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6710;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6310;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$150-$200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 12500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2400;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 11000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4880;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4480;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 14200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 12000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5380;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4980;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 16000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2820;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 13500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6180;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5780;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 17500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 14000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6880;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6480;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("Over $200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 15000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 14000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4800;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 16800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 14800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5700;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5300;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 18200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 4000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 15500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6500;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6150;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 19000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 4500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 16000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 6800;
+                            }
+                            break;
+                    }
+                }
+            } else if (housingType == 6) {
+                if (ans15.equals("Under $50")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 1971;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2400;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 1500;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2000;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2160;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 410;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2523;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 1850;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2250;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2600;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 2100;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2500;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 550;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2720;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 2500;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2600;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$50-$100")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 2500;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2800;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2910;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 550;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3100;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3000;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 580;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3250;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3400;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3300;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3400;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$100-150")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3600;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3000;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3210;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1250;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3750;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3500;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3300;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1320;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3900;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4100;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3520;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1420;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4050;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3800;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$150-$200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 4000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3700;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3330;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 5500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1750;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4600;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4500;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3500;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1900;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3720;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5100;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5800;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4000;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("Over $200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5800;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3500;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 9500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2100;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6800;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3700;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 10200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5300;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7300;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4000;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 12000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5600;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7800;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4300;
+                            }
+                            break;
+                    }
+                }
+            } else if (housingType == 7) {
+                if (ans15.equals("Under $50")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2443;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2590;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3170;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 1400;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2750;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 380;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2620;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3770;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 1560;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3111;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2730;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4670;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 1900;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3580;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 590;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5570;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2200;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$50-$100")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 4000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 550;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5600;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2400;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 5000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 700;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4320;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5940;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 2600;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 950;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6140;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3300;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7300;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1100;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6340;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3800;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$100-150")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 4300;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4000;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 5500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1350;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4310;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1520;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6420;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4600;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8340;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1700;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6100;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6500;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5100;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$150-$200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 4800;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1700;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5350;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3680;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3800;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6300;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1900;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4280;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3800;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2150;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5720;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5180;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4220;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 9000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2400;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5900;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6080;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4400;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("Over $200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 9500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5370;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6000;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4000;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 10100;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2780;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6600;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4640;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 11200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6800;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5000;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 14000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6200;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7400;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5340;
+                            }
+                            break;
+                    }
+                }
+            } else if (housingType == 8) {
+                if (ans15.equals("Under $50")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 2822;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 2810;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3340;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3800;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3010;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 560;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3940;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4070;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3300;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 890;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3468;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4840;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5000;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3600;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 3760;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5740;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5600;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$50-$100")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3600;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4300;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5900;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3500;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3840;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1380;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 4900;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6330;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 3930;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 3900;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1600;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5320;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6440;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4360;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 5100;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1750;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6900;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5000;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$100-150")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 5000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 1800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5300;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3510;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4100;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 6200;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5690;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4110;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4500;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 7000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2200;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6250;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5010;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4780;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6500;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5910;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5360;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("$150-$200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2400;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5440;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4200;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 8300;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2500;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5600;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 4500;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4640;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 9000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2650;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 5380;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5000;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 9500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6000;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5400;
+                            }
+                            break;
+                    }
+                } else if (ans15.equals("Over $200")) {
+                    switch (ans12) {
+                        case "1":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 9500;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 2800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5670;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6200;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4300;
+                            }
+                            break;
+                        case "2":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 1010;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3000;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 5800;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 6900;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 4700;
+                            }
+                            break;
+                        case "3-4":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 10300;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 3800;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6100;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7500;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5100;
+                            }
+                            break;
+                        case "5":
+                            if (homeHeatType == 0) {
+                                consumptionCO2 += 11000;
+                            } else if (homeHeatType == 1) {
+                                consumptionCO2 += 4300;
+                            } else if (homeHeatType == 2) {
+                                consumptionCO2 += 6350;
+                            } else if (homeHeatType == 3) {
+                                consumptionCO2 += 7850;
+                            } else if (homeHeatType == 4) {
+                                consumptionCO2 += 5500;
+                            }
+                            break;
+                    }
+                }
+            } //housing 9,10,11
+        }
+
+        if (q17Button != null) {
+            String ans17 = q17Button.getText().toString();
+
+            if (ans17.equals("Yes, primarily")) {
+                consumptionCO2 -= 6000;
+            } else if (ans17.equals("Yes, partially")) {
+                consumptionCO2 -= 4000;
+            }
+        }
+
+        return consumptionCO2;
     }
 
     private double calculateConsumptionCO2() {
