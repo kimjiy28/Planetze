@@ -25,7 +25,7 @@
     android:textColor="@color/darkblue" />
 
     <TextView
-        android:id="@+id/vehicle"
+        android:id="@+id/type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Type of Vehicle"
@@ -35,14 +35,14 @@
         android:textSize="20sp"
         android:textColor="@color/darkblue"/>
 
-    <EditText
-        android:id="@+id/txVehicle"
+    <Spinner
+        android:id="@+id/spType"
+        android:layout_below="@id/type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="i.e. Automobile"
-        android:layout_below="@+id/vehicle"
         android:padding="8dp"
-        android:textSize="20sp"
-        android:textColor="@color/darkblue" />
+        android:textSize="18sp"
+        android:textColor="@color/darkblue"
+        />
 
 </RelativeLayout>

@@ -26,6 +26,13 @@
         <item> Subway </item>
     </string-array>
 
+    <string-array name="vehicle">
+        <item> Gasoline </item>
+        <item> Diesel </item>
+        <item> Hybrid </item>
+        <item> Electric </item>
+    </string-array>
+
     <string-array name="length">
         <item> Select Length of Travel </item>
         <item> Short-haul (less than 1,500 km) </item>
