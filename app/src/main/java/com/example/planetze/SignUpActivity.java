@@ -3,6 +3,7 @@ package com.example.planetze;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -22,6 +23,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -90,15 +93,21 @@ public class SignUpActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     progressBar.setVisibility(View.GONE);
-                                    // Sign in success, update UI with the signed-in user's information
+                                    FirebaseUser user = task.getResult().getUser();
+                                    if (user != null) {
+                                        sendVerificationEmail(user); // Pass the user object to the method
+                                    }
+
                                     Toast.makeText(SignUpActivity.this, "Account Created. Verify your account to login.",
                                             Toast.LENGTH_SHORT).show();
-                                    //FirebaseUser user = mAuth.getCurrentUser();
-                                    sendVerificationEmail();
 
+                                    FirebaseAuth.getInstance().signOut();
+
+                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                    startActivity(intent);
+                                    finish();
 
                                 } else {
-                                    // If sign in fails, display a message to the user.
                                     progressBar.setVisibility(View.GONE);
                                     Toast.makeText(SignUpActivity.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
@@ -109,24 +118,22 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void sendVerificationEmail() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        assert user != null;
+    private void sendVerificationEmail(FirebaseUser user) {
         user.sendEmailVerification()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseAuth.getInstance().signOut();
-                        }
-                        else{
-                            Toast.makeText(SignUpActivity.this, "Email failed to send.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(intent);
-                        finish();
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+                        reference.child(user.getUid()).child("doneFirstSurvey").setValue("false")
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        Log.d("FirebaseSuccess", "doneFirstSurvey set to false.");
+                                    } else {
+                                        Log.e("FirebaseError", "Failed to set value: " + task1.getException().getMessage());
+                                    }
+                                });
+                    } else {
+                        Toast.makeText(SignUpActivity.this, "Email verification failed to send.",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }

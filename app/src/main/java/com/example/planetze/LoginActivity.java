@@ -22,6 +22,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -36,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
         if(currentUser != null){
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
@@ -124,12 +128,39 @@ public class LoginActivity extends AppCompatActivity {
         if (user.isEmailVerified()){
             Toast.makeText(LoginActivity.this, "Login successful.",
                     Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
+            //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            //startActivity(intent);
+            transitionToActivity();
         }
         else{
             FirebaseAuth.getInstance().signOut();
         }
+    }
+
+    private void transitionToActivity(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+        assert user != null;
+        reference.child(user.getUid()).child("doneFirstSurvey").get()
+                .addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    String value = String.valueOf(task.getResult().getValue());
+                    if (value.equals("false")){
+                        Toast.makeText(LoginActivity.this, "Transitioning to Quiz",
+                                Toast.LENGTH_SHORT).show();
+                        reference.child(user.getUid()).child("doneFirstSurvey").setValue("true");
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                    else{
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+
+                });
     }
 }
