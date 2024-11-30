@@ -7,5 +7,12 @@
     <string name="submit">Submit</string>
     <string name="enter_an_activity_to_record">Enter an activity to record.</string>
     <string name="dailyemission"> 0 </string>
-    <string name="select_a_date_dd_mm_yyyy">Select a Date (dd/mm/yyyy)</string>
+    <string name="date">Select Date</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="eco_tracker">Eco Tracker</string>
+    <string name="habit">Habit</string>
+    <string name="add_activity">Add Activity</string>
+    <string name="eco_gauge">Eco Gauge</string>
+    <string name="eco_hub">Eco Hub</string>
 </resources>

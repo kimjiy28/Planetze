@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/tracker"
+        android:icon="@drawable/tracker"
+        android:title="@string/eco_tracker" />
+
+    <item
+        android:id="@+id/habit"
+        android:icon="@drawable/habit"
+        android:title="@string/habit" />
+
+    <item
+        android:id="@+id/add"
+        android:icon="@drawable/add"
+        android:title="@string/add_activity" />
+
+    <item
+        android:id="@+id/gauge"
+        android:icon="@drawable/gauge"
+        android:title="@string/eco_gauge" />
+
+    <item
+        android:id="@+id/hub"
+        android:icon="@drawable/hub"
+        android:title="@string/eco_hub" />
+
+</menu>

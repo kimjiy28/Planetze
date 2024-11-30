@@ -12,11 +12,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
-    public void launchEcoTracker(View v) {
-        Intent ecotracker = new Intent(this, EcoTrackerActivity.class);
-        startActivity(ecotracker);
+
+        // After the survey
+        Intent ecoTracker = new Intent(this, EcoTrackerActivity.class);
+        startActivity(ecoTracker);
     }
 
 }

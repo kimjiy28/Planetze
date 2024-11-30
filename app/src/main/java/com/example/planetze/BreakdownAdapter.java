@@ -34,9 +34,9 @@ public class BreakdownAdapter extends RecyclerView.Adapter<BreakdownAdapter.Brea
     @Override
     public void onBindViewHolder(@NonNull BreakdownAdapter.BreakdownViewHolder holder, int position) {
         String category = activities.get(position).getCategory();
-        if (category.equals("transportation")) {
+        if (category.equals("Transportation")) {
             holder.category.setImageResource(R.drawable.transportation);
-        } else if (category.equals("food")) {
+        } else if (category.equals("Food")) {
             holder.category.setImageResource(R.drawable.food);
         } else {
             holder.category.setImageResource(R.drawable.consumption);

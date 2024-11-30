@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +36,7 @@ public class EcoTrackerActivity extends AppCompatActivity {
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     // DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child("X8cKomTutObPCZf5aXyhM2xwnUJ2");
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child("c04ro6FxLuaJ6TegP0wPmT8dzvp2");
     int progress = 0;
     boolean started = true;
     private int dailyEmission;
@@ -47,6 +48,7 @@ public class EcoTrackerActivity extends AppCompatActivity {
     TextView textView;
     WaveProgressBar waveProgressBar;
     RecyclerView recyclerView;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,29 @@ public class EcoTrackerActivity extends AppCompatActivity {
         textView = findViewById(R.id.dailyEmission);
         waveProgressBar = findViewById(R.id.waveProgressBar);
         recyclerView = findViewById(R.id.ecoRecyclerView);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
+        // Bottom Navigation, consider cases except the current activity
+        bottomNavigationView.setSelectedItemId(R.id.tracker);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.habit) {
+//                startActivity(new Intent(getApplicationContext(), HabitActivity.class));
+//                return true;
+            } else if (item.getItemId() == R.id.add) {
+                startActivity(new Intent(getApplicationContext(), RecordActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.gauge) {
+//                startActivity(new Intent(getApplicationContext(), EcoGaugeActivity.class));
+//                return true;
+            } else if (item.getItemId() == R.id.hub) {
+//                startActivity(new Intent(getApplicationContext(), EcoHubActivity.class));
+//                return true;
+            }
+            return false;
+        });
+
+
+        // Progress Animation
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
