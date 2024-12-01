@@ -1,4 +1,4 @@
-package com.example.planetze.ui.dashboard;
+package com.example.planetze;
 
 public class Habit {
     private String id; // Firestore document ID

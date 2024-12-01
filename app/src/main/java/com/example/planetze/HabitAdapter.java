@@ -1,4 +1,4 @@
-package com.example.planetze.ui.dashboard;
+package com.example.planetze;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,9 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.planetze.R;
-
-import java.text.BreakIterator;
 import java.util.List;
 
 public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHolder> {
