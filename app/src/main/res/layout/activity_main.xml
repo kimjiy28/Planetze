@@ -14,7 +14,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Please specify your current location"
+                android:text="Select your current location"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:paddingTop="16dp" />
@@ -429,10 +429,18 @@
 
             <!-- Submit Button -->
             <Button
-                android:id="@+id/submitButton"
+                android:id="@+id/submit_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Submit"
                 android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/comparison_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"/>
         </LinearLayout>
     </ScrollView>
