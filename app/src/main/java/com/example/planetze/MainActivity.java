@@ -2,50 +2,46 @@ package com.example.planetze;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.example.planetze.ui.dashboard.HabitAdapter;
-import com.example.planetze.repository.HabitRepository;
-import com.example.planetze.ui.dashboard.Habit;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
-    private RecyclerView recyclerView;
-    private HabitAdapter habitAdapter;
-    private HabitRepository habitRepository;
+    // Firestore instance
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize RecyclerView
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // Initialize Firestore
+        db = FirebaseFirestore.getInstance();
 
-        // Initialize HabitAdapter with an empty list initially
-        habitAdapter = new HabitAdapter(new ArrayList<>());
-        recyclerView.setAdapter(habitAdapter);
+        // Write test data to Firestore
+        writeTestData();
+    }
 
-        // Initialize HabitRepository and fetch data
-        habitRepository = new HabitRepository();
-        habitRepository.fetchHabits(new HabitRepository.HabitFetchCallback() {
-            @Override
-            public void onSuccess(List<Habit> habits) {
-                habitAdapter = new HabitAdapter(habits);
-                recyclerView.setAdapter(habitAdapter);
-                habitAdapter.notifyDataSetChanged();
-            }
+    private void writeTestData() {
+        // Create a map to hold sample data
+        Map<String, Object> testData = new HashMap<>();
+        testData.put("name", "Planetze");
+        testData.put("type", "Habit Tracking");
+        testData.put("created_at", System.currentTimeMillis());
 
-            @Override
-            public void onFailure(Exception e) {
-                // Handle the error, e.g., show a toast or log the error
-            }
-        });
+        // Write to Firestore
+        db.collection("testCollection")
+                .add(testData)
+                .addOnSuccessListener(documentReference -> {
+                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                })
+                .addOnFailureListener(e -> {
+                    Log.w(TAG, "Error adding document", e);
+                });
     }
 }
