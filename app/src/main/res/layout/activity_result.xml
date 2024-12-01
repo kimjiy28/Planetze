@@ -25,5 +25,21 @@
             android:text="Breakdown"
             android:textSize="18sp"
             android:paddingBottom="16dp" />
+
+        <TextView
+            android:id="@+id/result_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your result will appear here."
+            android:textSize="18sp"
+            android:paddingBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/global_comparison_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Global target comparison will appear here."
+            android:textSize="18sp" />
+
     </LinearLayout>
 </ScrollView>
