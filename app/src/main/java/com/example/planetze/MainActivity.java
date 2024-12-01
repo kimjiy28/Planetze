@@ -6,10 +6,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,17 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-/*
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
-    */
+
         setContentView(R.layout.activity_main);
 
         question1Group = findViewById(R.id.question1Group);
@@ -105,27 +97,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        // Submit Button
-        Button submitButton = findViewById(R.id.submitButton);
-        submitButton.setOnClickListener(view -> {
-            double transportationCO2 = calculateTransportationCO2();
-            double foodCO2 = calculateFoodCO2();
-            double housingCO2 = calculateHousingCO2();
-            double consumptionCO2 = calculateConsumptionCO2();
-            double totalCO2 = transportationCO2 + foodCO2 + housingCO2 + consumptionCO2;
-
-            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
-            intent.putExtra("totalCO2", totalCO2);
-            intent.putExtra("transportationCO2", transportationCO2);
-            intent.putExtra("foodCO2", foodCO2);
-            intent.putExtra("housingCO2", housingCO2);
-            intent.putExtra("consumptionCO2", consumptionCO2);
-            startActivity(intent);
-        });
-
         Spinner countrySpinner = findViewById(R.id.country_spinner);
-
+        TextView comparisonResult = findViewById(R.id.comparison_result);
         // Load country data from the CSV file
         ArrayList<String> countriesList = loadCountriesFromCSV();
 
@@ -133,6 +106,41 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countriesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         countrySpinner.setAdapter(adapter);
+
+        // Submit Button
+        Button submit_button = findViewById(R.id.submit_button);
+        submit_button.setOnClickListener(view -> {
+            double transportationCO2 = calculateTransportationCO2();
+            double foodCO2 = calculateFoodCO2();
+            double housingCO2 = calculateHousingCO2();
+            double consumptionCO2 = calculateConsumptionCO2();
+            double totalCO2 = transportationCO2 + foodCO2 + housingCO2 + consumptionCO2;
+
+            String selectedCountry = countrySpinner.getSelectedItem().toString();
+            double countryAverage = getCountryAverage(selectedCountry);
+            double globalAverage = 2;
+            int comparison = (int) (((totalCO2 - countryAverage) / countryAverage) * 100);
+            int global_comparison = (int) (((totalCO2 - globalAverage) / globalAverage) * 100);
+
+            String resultMessage = "Your carbon footprint is " + (comparison < 0 ? Math.abs(comparison) : comparison) + "% " +
+                    (comparison < 0 ? "below" : "above") + " the national average for " + selectedCountry + ".";
+
+
+            String globalMessage = "Your carbon footprint is " + (global_comparison < 0 ? Math.abs(global_comparison) : global_comparison) + "% " +
+                    (global_comparison < 0 ? "below" : "above") + " global targets for reducing climate change.";
+
+            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+            intent.putExtra("totalCO2", totalCO2);
+            intent.putExtra("transportationCO2", transportationCO2);
+            intent.putExtra("foodCO2", foodCO2);
+            intent.putExtra("housingCO2", housingCO2);
+            intent.putExtra("consumptionCO2", consumptionCO2);
+            intent.putExtra("comparison_result", resultMessage);
+            intent.putExtra("global_comparison", globalMessage);
+            startActivity(intent);
+        });
+
+
 
         // Set up a listener for the Spinner
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -147,6 +155,39 @@ public class MainActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
+    }
+    private ArrayList<String> loadCountriesFromCSV() {
+        ArrayList<String> countries = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(getAssets().open("Global_Averages.csv")));
+            String line;
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(",");
+                countries.add(columns[0]);
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return countries;
+    }
+    private double getCountryAverage(String country) {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(getAssets().open("Global_Averages.csv")));
+            String line;
+            reader.readLine(); // Skip the header row
+            while ((line = reader.readLine()) != null) {
+                String[] columns = line.split(",");
+                if (columns[0].equalsIgnoreCase(country)) {
+                    return Double.parseDouble(columns[1]); // Return the average footprint
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1; // Return -1 if country not found
     }
     private double calculateTransportationCO2() {
         double transportationCO2 = 0;
@@ -328,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
                     foodCO2 += 1900;
                 } else if (ans9B.equals("Occasionally (1-2 times/week)")) {
                     foodCO2 += 1300;
-                } else foodCO2 += 0;;
+                } else foodCO2 += 0;
 
                 if (ans9P.equals("Daily")) {
                     foodCO2 += 1450;
@@ -336,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
                     foodCO2 += 860;
                 } else if (ans9B.equals("Occasionally (1-2 times/week)")) {
                     foodCO2 += 450;
-                } else foodCO2 += 0;;
+                } else foodCO2 += 0;
 
                 if (ans9C.equals("Daily")) {
                     foodCO2 += 950;
@@ -344,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
                     foodCO2 += 600;
                 } else if (ans9B.equals("Occasionally (1-2 times/week)")) {
                     foodCO2 += 200;
-                } else foodCO2 += 0;;
+                } else foodCO2 += 0;
 
                 if (ans9F.equals("Daily")) {
                     foodCO2 += 800;
@@ -352,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
                     foodCO2 += 500;
                 } else if (ans9B.equals("Occasionally (1-2 times/week)")) {
                     foodCO2 += 150;
-                } else foodCO2 += 0;;
+                } else foodCO2 += 0;
             }
         }
 
@@ -3928,7 +3969,7 @@ public class MainActivity extends AppCompatActivity {
                     consumptionCO2 -= 180;
                 } else if(q20.equals("4 or more")){
                     consumptionCO2 -= 240;
-                };
+                }
 
             } else if (frequency.equals("Always")) {
                 if (q18.equals("Monthly")) {
@@ -3949,26 +3990,10 @@ public class MainActivity extends AppCompatActivity {
                     consumptionCO2 -= 270;
                 } else if(q20.equals("4 or more")){
                     consumptionCO2 -= 360;
-                };
+                }
             }
         }
         return consumptionCO2/1000;
-    }
-    private ArrayList<String> loadCountriesFromCSV() {
-        ArrayList<String> countries = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(getAssets().open("Global_Averages.csv")));
-            String line;
-            reader.readLine();
-            while ((line = reader.readLine()) != null) {
-                String[] columns = line.split(",");
-                countries.add(columns[0]);
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return countries;
     }
 
 }
