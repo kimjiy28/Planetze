@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EnergyBillsFragment">
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Type of Energy Bill *"
+        android:padding="8dp"
+        android:textSize="20sp"
+        android:textColor="@color/darkblue"/>
+
+    <Spinner
+        android:id="@+id/spType"
+        android:layout_below="@id/type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textSize="18sp"
+        android:textColor="@color/darkblue"
+        />
+
+    <TextView
+        android:id="@+id/distance"
+        android:layout_below="@id/spType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bill Amount ($)*"
+        android:layout_marginTop="24dp"
+        android:padding="8dp"
+        android:textSize="20sp"
+        android:textColor="@color/darkblue"/>
+
+    <EditText
+        android:id="@+id/txDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/distance"
+        android:hint="i.e. 150"
+        android:padding="8dp"
+        android:textSize="20sp"
+        android:textColor="@color/darkblue" />
+
+</RelativeLayout>

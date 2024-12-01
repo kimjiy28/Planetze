@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EcoTrackerActivity"
+    android:layout_margin="24dp" >
+
+    <EditText
+        android:id="@+id/calendarManagement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/date"
+        android:textAlignment="center"
+        android:textColor="@color/darkblue"
+        android:textSize="30sp"
+        android:textStyle="italic"
+        android:focusable="false" />
+
+    <cjh.WaveProgressBarlibrary.WaveProgressBar
+        android:id="@+id/waveProgressBar"
+        android:layout_below="@id/calendarManagement"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="300sp"
+        android:layout_height="300sp"
+        app:arc_color="#fff"
+        app:behind_wave_color="@color/green"
+        app:cavans_bg="#fff"
+        app:front_wave_color="@color/lightgreen"
+        app:progress="45"
+        app:shape="circle"
+        app:text_size="20sp" />
+
+    <TextView
+        android:id="@+id/dailyEmission"
+        android:layout_below="@id/calendarManagement"
+        android:layout_margin="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/darkblue"
+        android:text="@string/dailyemission"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        app:text_size="50sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ecoRecyclerView"
+        android:layout_below="@id/waveProgressBar"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/waveProgressBar"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottomNavigationView"
+        android:layout_alignParentBottom ="true"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bottom_background"
+        app:menu="@menu/bottom_menu"
+        app:itemIconSize="32dp"
+        app:itemIconTint="@drawable/item_selector"
+        app:itemRippleColor="@android:color/transparent"
+        app:labelVisibilityMode="unlabeled" />
+
+</RelativeLayout>
