@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planetze.ui.dashboard.Habit;
 import com.example.planetze.ui.dashboard.HabitAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,11 +35,34 @@ public class HabitActivity extends AppCompatActivity {
     private DatabaseReference userHabitsRef;
     private List<Habit> habitList;
     private String userId;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit);
+
+        //  Views Initialization
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        // Bottom Navigation
+        bottomNavigationView.setSelectedItemId(R.id.habit);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.tracker) {
+                startActivity(new Intent(getApplicationContext(), EcoTrackerActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.add) {
+                startActivity(new Intent(getApplicationContext(), RecordActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.gauge) {
+//                startActivity(new Intent(getApplicationContext(), EcoGaugeActivity.class));
+//                return true;
+            } else if (item.getItemId() == R.id.hub) {
+//                startActivity(new Intent(getApplicationContext(), EcoHubActivity.class));
+//                return true;
+            }
+            return false;
+        });
 
         //HARD CODING A USER, DELETE LATER
         userId = "c04ro6FxLuaJ6TegP0wPmT8dzvp2"; // Replace this
@@ -100,7 +124,6 @@ public class HabitActivity extends AppCompatActivity {
                         habitList.add(habit);
                     }
                 }
-
                 habitAdapter.notifyDataSetChanged(); // Refresh RecyclerView
             }
 

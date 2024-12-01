@@ -36,20 +36,22 @@ public class RecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
 
+        //Views Initialization
         categorySpinner = findViewById(R.id.spCategory);
         categoryAdapter = ArrayAdapter.createFromResource(this, R.array.category, R.layout.spinner);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
+        // Bottom Navigation
         bottomNavigationView.setSelectedItemId(R.id.add);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.tracker) {
                 startActivity(new Intent(getApplicationContext(), EcoTrackerActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.habit) {
-//                startActivity(new Intent(getApplicationContext(), HabitActivity.class));
-//                return true;
+                startActivity(new Intent(getApplicationContext(), HabitActivity.class));
+                return true;
             } else if (item.getItemId() == R.id.gauge) {
 //                startActivity(new Intent(getApplicationContext(), EcoGaugeActivity.class));
 //                return true;

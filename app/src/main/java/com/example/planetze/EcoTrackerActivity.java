@@ -43,7 +43,7 @@ public class EcoTrackerActivity extends AppCompatActivity {
     private ArrayList<Breakdown> activityList;
     private BreakdownAdapter adapter;
 
-    // View
+    // Views
     EditText calendarManagement;
     TextView textView;
     WaveProgressBar waveProgressBar;
@@ -55,19 +55,19 @@ public class EcoTrackerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eco_tracker);
 
-        // Initialize Views
+        // Views Initialization
         calendarManagement = findViewById(R.id.calendarManagement);
         textView = findViewById(R.id.dailyEmission);
         waveProgressBar = findViewById(R.id.waveProgressBar);
         recyclerView = findViewById(R.id.ecoRecyclerView);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        // Bottom Navigation, consider cases except the current activity
+        // Bottom Navigation
         bottomNavigationView.setSelectedItemId(R.id.tracker);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.habit) {
-//                startActivity(new Intent(getApplicationContext(), HabitActivity.class));
-//                return true;
+                startActivity(new Intent(getApplicationContext(), HabitActivity.class));
+                return true;
             } else if (item.getItemId() == R.id.add) {
                 startActivity(new Intent(getApplicationContext(), RecordActivity.class));
                 return true;
