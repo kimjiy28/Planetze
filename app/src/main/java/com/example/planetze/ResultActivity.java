@@ -1,5 +1,6 @@
 package com.example.planetze;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,20 @@ public class ResultActivity extends AppCompatActivity {
                             "Consumption: %.2f tons of CO2e/year",
                     transportationCO2, foodCO2, housingCO2, consumptionCO2
             ));
+
+            Intent intent = getIntent();
+            String comparisonResult = intent.getStringExtra("comparison_result");
+
+            TextView resultTextView = findViewById(R.id.result_text_view);
+
+            resultTextView.setText(comparisonResult);
+
+            Intent intent2 = getIntent();
+            String globalComparison = intent.getStringExtra("global_comparison");
+
+            TextView globalTextView = findViewById(R.id.global_comparison_text_view);
+
+            globalTextView.setText(globalComparison);
         }
     }
 }
