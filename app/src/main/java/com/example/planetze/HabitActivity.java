@@ -77,10 +77,7 @@ public class HabitActivity extends AppCompatActivity {
                 this::deleteHabit,true);
         habitRecyclerView.setAdapter(habitAdapter);
 
-
         fetchUserHabits();
-        // Fetch Habits from Realtime Database
-        //fetchHabits();
 
         // Add New Habit Button
         findViewById(R.id.addHabitButton).setOnClickListener(view -> {
@@ -90,26 +87,6 @@ public class HabitActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
-//    private void deleteHabit(Habit habit) {
-//        if (habit.getId() == null) {
-//            Toast.makeText(this, "Unable to delete habit. Missing ID.", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        // Remove habit from Firebase
-//        habitsRef.child(habit.getId()).removeValue()
-//                .addOnSuccessListener(unused -> {
-//                    // Remove habit from local list and update RecyclerView
-//                    habitList.remove(habit);
-//                    habitAdapter.notifyDataSetChanged();
-//                    Toast.makeText(this, "Habit deleted successfully!", Toast.LENGTH_SHORT).show();
-//                })
-//                .addOnFailureListener(e -> {
-//                    Log.e("HabitActivity", "Error deleting habit", e);
-//                    Toast.makeText(this, "Failed to delete habit", Toast.LENGTH_SHORT).show();
-//                });
-//    }
     private void fetchUserHabits() {
         userHabitsRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -133,43 +110,6 @@ public class HabitActivity extends AppCompatActivity {
             }
         });
     }
-    private void fetchHabits() {
-        habitsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                habitList.clear(); // Clear the list before adding updated data
-
-                // Loop through each child in the habits node
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Habit habit = snapshot.getValue(Habit.class);
-                    if (habit != null) {
-                        habit.setId(snapshot.getKey()); // Set the unique key as the habit ID
-                        habitList.add(habit);
-                    }
-                }
-
-                // Notify the adapter to refresh the RecyclerView
-                habitAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Error fetching habits", databaseError.toException());
-            }
-        });
-    }
-
-    private void addOrUpdateHabit(Habit habit) {
-        if (habit.getId() == null) {
-            userHabitsRef.push().setValue(habit)
-                    .addOnSuccessListener(aVoid -> Toast.makeText(this, "Habit added successfully!", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> Log.e(TAG, "Failed to add habit", e));
-        } else {
-            userHabitsRef.child(habit.getId()).setValue(habit)
-                    .addOnSuccessListener(aVoid -> Toast.makeText(this, "Habit updated successfully!", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> Log.e(TAG, "Failed to update habit", e));
-        }
-    }
     private void incrementHabitDays(Habit habit) {
         if (habit.getId() == null) {
             Log.e(TAG, "Cannot increment days for a habit without ID");
@@ -186,7 +126,6 @@ public class HabitActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to update habit", e));
     }
-
     private void deleteHabit(Habit habit) {
         if (habit.getId() == null) {
             Toast.makeText(this, "Unable to delete habit. Missing ID.", Toast.LENGTH_SHORT).show();
@@ -204,25 +143,4 @@ public class HabitActivity extends AppCompatActivity {
                     Toast.makeText(this, "Failed to delete habit", Toast.LENGTH_SHORT).show();
                 });
     }
-//    private void incrementHabitDays(Habit habit) {
-//        if (habit == null || habit.getId() == null) {
-//            Log.e(TAG, "Habit or Habit ID is null");
-//            return;
-//        }
-//
-//        int newDays = habit.getDaysCompleted() + 1;
-//
-//        // Update Realtime Database
-//        Map<String, Object> updates = new HashMap<>();
-//        updates.put("daysCompleted", newDays);
-//
-//        habitsRef.child(habit.getId())
-//                .updateChildren(updates)
-//                .addOnSuccessListener(aVoid -> {
-//                    habit.setDaysCompleted(newDays); // Update local list
-//                    habitAdapter.notifyDataSetChanged(); // Refresh RecyclerView
-//                    Log.d(TAG, "Habit updated successfully");
-//                })
-//                .addOnFailureListener(e -> Log.e(TAG, "Error updating habit", e));
-//    }
 }

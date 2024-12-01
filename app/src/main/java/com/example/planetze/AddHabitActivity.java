@@ -2,6 +2,12 @@ package com.example.planetze;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.SearchView;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,8 +34,16 @@ public class AddHabitActivity extends AppCompatActivity {
     private RecyclerView preexistingHabitsRecyclerView;
     private HabitAdapter preexistingHabitAdapter;
     private List<Habit> preexistingHabitList;
+    private List<Habit> filteredHabitList;
     private DatabaseReference preexistingHabitsRef;
     private DatabaseReference userHabitsRef;
+
+    private TextView impactFilterTextView;
+    private SeekBar impactFilterSeekBar;
+
+    private int currentImpactLevel = 0;
+    private String currentSearchQuery = "";
+    private String currentCategory = "All";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +65,11 @@ public class AddHabitActivity extends AppCompatActivity {
         preexistingHabitsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         preexistingHabitList = new ArrayList<>();
-        preexistingHabitAdapter = new HabitAdapter(preexistingHabitList,
-                this::addHabitToUser, // Increment functionality (for adding habits)
+        filteredHabitList = new ArrayList<>();
+        preexistingHabitAdapter = new HabitAdapter(filteredHabitList,
+                this::addHabitToUser,
                 habit -> {}, false);
         preexistingHabitsRecyclerView.setAdapter(preexistingHabitAdapter);
-
         // Fetch preexisting habits
         fetchPreexistingHabits();
 
@@ -66,60 +80,122 @@ public class AddHabitActivity extends AppCompatActivity {
         preexistingHabitsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot preexistingSnapshot) {
-                List<Habit> availableHabits = new ArrayList<>();
+                preexistingHabitList.clear();
 
-                // Fetch the current user's habits
-                userHabitsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot userSnapshot) {
-                        // Collect the IDs of the user's added habits
-                        List<String> userAddedHabitIds = new ArrayList<>();
-                        for (DataSnapshot habitSnapshot : userSnapshot.getChildren()) {
-                            userAddedHabitIds.add(habitSnapshot.getKey());
-                        }
-
-                        // Filter preexisting habits
-                        for (DataSnapshot preexistingHabitSnapshot : preexistingSnapshot.getChildren()) {
-                            String habitId = preexistingHabitSnapshot.getKey();
-                            if (!userAddedHabitIds.contains(habitId)) {
-                                Habit habit = preexistingHabitSnapshot.getValue(Habit.class);
-                                if (habit != null) {
-                                    habit.setId(habitId);
-                                    availableHabits.add(habit);
-                                }
-                            }
-                        }
-
-                        // Update the adapter with filtered habits
-                        preexistingHabitAdapter.updateHabitList(availableHabits);
+                for (DataSnapshot snapshot : preexistingSnapshot.getChildren()) {
+                    Habit habit = snapshot.getValue(Habit.class);
+                    if (habit != null) {
+                        habit.setId(snapshot.getKey());
+                        preexistingHabitList.add(habit);
                     }
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.e("AddHabitActivity", "Failed to fetch user habits", error.toException());
-                    }
-                });
+                Log.d("fetchPreexistingHabits", "Preexisting habit list size: " + preexistingHabitList.size());
+
+                setupSearchFunctionality();
+                setupCategorySpinner();
+                setupImpactFilter();
+                applyFilters();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("AddHabitActivity", "Failed to fetch preexisting habits", error.toException());
+                Log.e("fetchPreexistingHabits", "Failed to fetch preexisting habits", error.toException());
             }
         });
     }
+    private void addHabitToUser(Habit habit) {
+        if (habit == null || habit.getId() == null) {
+            Log.e("AddHabitActivity", "Cannot add a habit with a null ID");
+            return;
+        }
 
-private void addHabitToUser(Habit habit) {
-    if (habit == null || habit.getId() == null) {
-        Log.e("AddHabitActivity", "Cannot add a habit with a null ID");
-        return;
+        userHabitsRef.child(habit.getId()).setValue(habit)
+                .addOnSuccessListener(unused -> {
+                    Log.d("AddHabitActivity", "Habit added successfully");
+
+                    // Remove the added habit from the preexisting list
+                    preexistingHabitList.remove(habit);
+
+                    // Reapply filters to update the displayed list
+                    applyFilters();
+
+                    Toast.makeText(this, "Habit added successfully!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> Log.e("AddHabitActivity", "Failed to add habit to user", e));
     }
+    private void setupSearchFunctionality() {
+        androidx.appcompat.widget.SearchView searchView = findViewById(R.id.habitSearchView);
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                currentSearchQuery = query; // Update the search query
+                applyFilters(); // Call filter method
+                return true;
+            }
 
-    userHabitsRef.child(habit.getId()).setValue(habit)
-            .addOnSuccessListener(unused -> {
-                Log.d("AddHabitActivity", "Habit added successfully");
-                fetchPreexistingHabits(); // Refresh the adapter to remove the added habit
-            })
-            .addOnFailureListener(e -> Log.e("AddHabitActivity", "Failed to add habit to user", e));
-}
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                currentSearchQuery = newText; // Update the search query
+                applyFilters(); // Call filter method
+                return true;
+            }
+        });
+    }
+    private void setupCategorySpinner() {
+        Spinner categorySpinner = findViewById(R.id.categorySpinner);
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentCategory = parent.getItemAtPosition(position).toString();
+                applyFilters();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+    }
+    private void setupImpactFilter() {
+        impactFilterTextView = findViewById(R.id.impactFilterTextView);
+        impactFilterSeekBar = findViewById(R.id.impactFilterSeekBar);
+
+        impactFilterSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                currentImpactLevel = progress;
+                impactFilterTextView.setText("Impact Level: " + progress);
+                applyFilters();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+    }
+    private void applyFilters() {
+        Log.d("applyFilters", "Applying filters: Query='" + currentSearchQuery + "', Category='" + currentCategory + "', Impact=" + currentImpactLevel);
+        Log.d("applyFilters", "Preexisting list size before filtering: " + preexistingHabitList.size());
+
+        filteredHabitList.clear(); // Clear the filtered list
+
+        for (Habit habit : preexistingHabitList) {
+            boolean matchesQuery = currentSearchQuery.isEmpty() ||
+                    habit.getName().toLowerCase().contains(currentSearchQuery.toLowerCase());
+            boolean matchesCategory = currentCategory.equals("All") ||
+                    habit.getCategory().equalsIgnoreCase(currentCategory);
+            boolean matchesImpact = habit.getImpactLevel() >= currentImpactLevel;
+
+            if (matchesQuery && matchesCategory && matchesImpact) {
+                filteredHabitList.add(habit);
+            }
+        }
+
+        Log.d("applyFilters", "Filtered list size after filtering: " + filteredHabitList.size());
+
+        preexistingHabitAdapter.updateHabitList(filteredHabitList); // Update the adapter with filtered habits
+    }
 }

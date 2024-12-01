@@ -3,4 +3,14 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <!-- Habit Categories -->
+    <string-array name="categories">
+        <item>All</item>
+        <item>Transportation</item>
+        <item>Food</item>
+        <item>Energy</item>
+        <item>Waste Management</item>
+        <item>Recycling</item>
+    </string-array>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.planetze.ui.dashboard;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planetze.R;
+
+import java.text.BreakIterator;
 import java.util.List;
 
 public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHolder> {
-
-    private final List<Habit> habitList;
+    private List<Habit> habitList;
     private final OnHabitIncrementListener incrementListener;
     private final OnHabitDeleteListener deleteListener;
     private final boolean showDeleteButton;
 
-    // Constructor with deleteListener
     public HabitAdapter(List<Habit> habitList, OnHabitIncrementListener incrementListener, OnHabitDeleteListener deleteListener, boolean showDeleteButton) {
         this.habitList = habitList;
         this.incrementListener = incrementListener;
@@ -38,8 +39,8 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
     public void onBindViewHolder(@NonNull HabitViewHolder holder, int position) {
         Habit habit = habitList.get(position);
         holder.nameTextView.setText(habit.getName());
-        holder.daysTextView.setText(String.valueOf(habit.getDaysCompleted()));
-
+        holder.habitImpactLevelTextView.setText("Impact: " + habit.getImpactLevel());
+        holder.daysTextView.setText("Days: " + habit.getDaysCompleted());
         // Handle increment button click
         holder.incrementButton.setOnClickListener(v -> incrementListener.onIncrement(habit));
 
@@ -60,20 +61,19 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         return habitList.size();
     }
 
-    public void updateHabitList(List<Habit> newHabitList) {
-        this.habitList.clear();
-        this.habitList.addAll(newHabitList);
-        notifyDataSetChanged(); // Notify the RecyclerView to refresh
+    public void updateHabitList(List<Habit> habits) {
+        Log.d("HabitAdapter", "Updating adapter with " + habits.size() + " habits");
+        this.habitList = habits; // Update the internal list
+        notifyDataSetChanged(); // Notify the adapter to refresh the RecyclerView
     }
-
     static class HabitViewHolder extends RecyclerView.ViewHolder {
-
-        TextView nameTextView, daysTextView;
+        TextView nameTextView, habitImpactLevelTextView, daysTextView;
         Button incrementButton, deleteButton;
 
         public HabitViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.habitName);
+            habitImpactLevelTextView = itemView.findViewById(R.id.habitImpactLevelTextView);
             daysTextView = itemView.findViewById(R.id.habitDays);
             incrementButton = itemView.findViewById(R.id.incrementDaysButton);
             deleteButton = itemView.findViewById(R.id.deleteHabitButton);
