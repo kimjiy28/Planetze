@@ -45,10 +45,16 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
-    implementation("com.google.firebase:firebase-analytics")
+    // BOM for firebase platform
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+
+    // Firebase Products
+    implementation(libs.google.firebase.database)
+    implementation(libs.firebase.auth)
 }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    tools:context=".LoginActivity"
+    android:gravity="center"
+    android:padding="15dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/login"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/teal_700"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="350dp"
+            android:layout_height="55dp"
+            android:id="@+id/email"
+            android:hint="@string/email"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="350dp"
+            android:layout_height="55dp"
+            android:id="@+id/password"
+            android:hint="@string/password"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbar"
+        android:visibility="gone"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_login"
+        android:layout_marginTop="10dp"
+        android:text="@string/login"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switchToSignup"
+        android:text="@string/sign_up_here"
+        android:gravity="center"
+        android:paddingTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/forgotpassword"
+        android:text="@string/reset_password"
+        android:gravity="center"
+        android:paddingTop="10dp"/>
+
+</LinearLayout>
