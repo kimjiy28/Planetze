@@ -1,13 +1,21 @@
 # CSCB07 Group Project - Planetze
 Planetze is a sustainability platform designed to empower individuals and employees to track, reduce, and offset their carbon footprint. With the rising importance of climate action, Planetze provides users with personalized insights into their environmental impact and offers real-time data on their daily carbon emissions. Users can adopt eco-friendly habits, and contribute to certified carbon offset projects, making climate action accessible and achievable for everyone
 
+# Overall Structure
+Download & Open App: The user downloads the app and opens it for the first time. First-Time User Onboarding: The app welcomes users and prompts them to begin the initial setup.
 
-# Features
+Introduction to Carbon Footprint Calculation: The app briefly explains that it will ask a few questions to calculate their annual carbon footprint. This step will only happen once unless the user decides to recalculate later.
+
+Annual Carbon Footprint: The user answers a few questions about their lifestyle to calculate their yearly carbon footprint and compare it to the national average. (First Time Only)
+
+Navigation to Main Menu: The user is then directed to the Eco Tracker to monitor daily emissions.
+
+Access to Other Menus: After Eco Tracker, users can explore Eco Gauge, and Eco Hub.
+
+# Key Components
 Eco Tracker: Tracks users’ carbon emissions based on their daily activities.
 
 Eco Gauge: A visual representation of progress toward carbon reduction goals, motivating users with clear, tangible results.
-
-Eco Balance: Provides users with the ability to offset their carbon emissions.
 
 Eco Hub: A resource center with educational content, and sustainability tips to help users stay informed and engaged.
 
