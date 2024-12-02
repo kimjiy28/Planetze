@@ -20,10 +20,10 @@ Eco Gauge: A visual representation of progress toward carbon reduction goals, mo
 Eco Hub: A resource center with educational content, and sustainability tips to help users stay informed and engaged.
 
 # Code Use
-1. Clone repo
-2. Open in Android Studio
-3. Select Emulator
-4. Click Run
+1. Clone repo: https://github.com/kimjiy28/Planetze.git
+3. Open in Android Studio
+4. Select Emulator
+5. Click Run
 
 # Dependencies
     // App UI
