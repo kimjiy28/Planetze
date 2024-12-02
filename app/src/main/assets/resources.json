@@ -1,0 +1,25 @@
+{
+  "resources": [
+    {
+      "type": "video",
+      "title": "Understanding Carbon Footprint",
+      "description": "A BBC video explaining carbon footprint.",
+      "url": "https://www.youtube.com/watch?v=a9yO-K8mwL0",
+      "image": "https://path.to/carbon_footprint_thumbnail.jpg"
+    },
+    {
+      "type": "article",
+      "title": "Future of Eco-Friendly Products",
+      "description": "Trend analysis report on eco-friendly products.",
+      "url": "https://gnatta.com/blog/future-eco-friendly-products-trend-analysis-report/",
+      "image": "https://path.to/eco_friendly_products_thumbnail.jpg"
+    },
+    {
+      "type": "product",
+      "title": "Eco Laundry Powder",
+      "description": "Meliora natural powder laundry detergent.",
+      "url": "https://earthhero.com/products/meliora-natural-powder-laundry-detergent",
+      "image": "https://path.to/laundry_powder_thumbnail.jpg"
+    }
+  ]
+}
