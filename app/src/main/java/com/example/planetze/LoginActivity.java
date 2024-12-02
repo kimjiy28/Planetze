@@ -10,41 +10,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
-    TextInputEditText email, password;
-    Button login;
-    FirebaseAuth mAuth;
-    ProgressBar progressBar;
-    TextView textView, textView1;
+    private TextInputEditText email, password;
+    private Button login;
+    private ProgressBar progressBar;
+    private TextView textView, textView1;
+
+    private LoginPresenter presenter;
 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        presenter.checkUserLoggedIn();
     }
 
     @Override
@@ -58,109 +43,67 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
+        presenter = new LoginPresenter(this);
+
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         login = findViewById(R.id.button_login);
-        mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressbar);
         textView = findViewById(R.id.switchToSignup);
         textView1 = findViewById(R.id.forgotpassword);
 
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        textView.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
+            finish();
         });
 
-        textView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ResetPasswordActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        textView1.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), ResetPasswordActivity.class));
+            finish();
         });
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                String loginemail, loginpassword;
-                loginemail = String.valueOf(email.getText());
-                loginpassword = String.valueOf(password.getText());
-
-                if (TextUtils.isEmpty(loginemail)){
-                    Toast.makeText(LoginActivity.this, "Enter email", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(loginpassword)){
-                    Toast.makeText(LoginActivity.this, "Enter password", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                mAuth.signInWithEmailAndPassword(loginemail, loginpassword)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    //FirebaseUser user = mAuth.getCurrentUser();
-                                    checkIfEmailVerified();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(LoginActivity.this, "Login failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+        login.setOnClickListener(v -> {
+            String loginEmail = String.valueOf(email.getText());
+            String loginPassword = String.valueOf(password.getText());
+            if (TextUtils.isEmpty(loginEmail)) {
+                showToast("Enter email");
+                return;
             }
+            if (TextUtils.isEmpty(loginPassword)) {
+                showToast("Enter password");
+                return;
+            }
+            presenter.performLogin(loginEmail, loginPassword);
         });
     }
 
-    private void checkIfEmailVerified() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        assert user != null;
-        if (user.isEmailVerified()){
-            Toast.makeText(LoginActivity.this, "Login successful.",
-                    Toast.LENGTH_SHORT).show();
-            //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            //startActivity(intent);
-            transitionToActivity();
-        }
-        else{
-            FirebaseAuth.getInstance().signOut();
-        }
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
     }
 
-    private void transitionToActivity(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-        assert user != null;
-        reference.child(user.getUid()).child("doneFirstSurvey").get()
-                .addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
-                    String value = String.valueOf(task.getResult().getValue());
-                    if (value.equals("false")){
-                        Toast.makeText(LoginActivity.this, "Transitioning to Quiz",
-                                Toast.LENGTH_SHORT).show();
-                        reference.child(user.getUid()).child("doneFirstSurvey").setValue("true");
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finish();
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
 
-                    }
-                    else{
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
 
-                });
+    @Override
+    public void navigateToMain() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void navigateToQuiz() {
+        showToast("Transitioning to Quiz");
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
