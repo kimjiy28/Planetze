@@ -10,3 +10,14 @@ Eco Gauge: A visual representation of progress toward carbon reduction goals, mo
 Eco Balance: Provides users with the ability to offset their carbon emissions.
 
 Eco Hub: A resource center with educational content, and sustainability tips to help users stay informed and engaged.
+
+# Assumptions Made
+Annual Carbon Footprint:
+  1. Housing carbon emissions may be negative 
+  2. Total carbon emissions may be negative  
+  3. Q21: How often do you recycle? For quarterly buyers, emissions reduction is calculated as follows
+       Occasional Recycling : Reduction: 18 kg CO2e/year
+       Frequent Recycling : Reduction: 36 kg CO2e/year
+       Always Recycling :Reduction: 60 kg CO2e/year
+
+
