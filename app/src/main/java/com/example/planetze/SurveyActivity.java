@@ -351,10 +351,6 @@ public class SurveyActivity extends AppCompatActivity {
 
         if (q8Button != null) {
             String ans8 = q8Button.getText().toString();
-            String ans9P = q9PButton.getText().toString();
-            String ans9B = q9BButton.getText().toString();
-            String ans9C = q9CButton.getText().toString();
-            String ans9F = q9FButton.getText().toString();
 
             if (ans8.equals("Vegetarian")) {
                 foodCO2 += 1000;
@@ -363,6 +359,10 @@ public class SurveyActivity extends AppCompatActivity {
             } else if (ans8.equals("Pescatarian")) {
                 foodCO2 += 1500;
             } else if (ans8.equals("Meat-based")) {
+                String ans9P = q9PButton.getText().toString();
+                String ans9B = q9BButton.getText().toString();
+                String ans9C = q9CButton.getText().toString();
+                String ans9F = q9FButton.getText().toString();
                 if (ans9B.equals("Daily")) {
                     foodCO2 += 2500;
                 } else if (ans9B.equals("Frequently (3-5 times/week)")) {
