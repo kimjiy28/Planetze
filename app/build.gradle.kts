@@ -60,4 +60,6 @@ dependencies {
 
     implementation("com.github.cjhandroid:WaveProgressBar:v1.0.0")
 
+    implementation("com.github.anastr:speedviewlib:1.5.4")
+
 }

@@ -25,6 +25,9 @@
             android:name=".RecordActivity"
             android:exported="true" />
         <activity
+            android:name=".EcoGaugeActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
