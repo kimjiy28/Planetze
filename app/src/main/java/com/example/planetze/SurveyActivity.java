@@ -47,7 +47,7 @@ public class SurveyActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_survey);
 
         question1Group = findViewById(R.id.question1Group);
         question2Group = findViewById(R.id.question2Group);

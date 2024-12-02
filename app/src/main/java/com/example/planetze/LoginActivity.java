@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void navigateToQuiz() {
         showToast("Transitioning to Quiz");
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SurveyActivity.class);
         startActivity(intent);
         finish();
     }
