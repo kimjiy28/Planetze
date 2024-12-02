@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class SurveyActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     // RadioGroups for Transportation
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             String globalMessage = "Your carbon footprint is " + (global_comparison < 0 ? Math.abs(global_comparison) : global_comparison) + "% " +
                     (global_comparison < 0 ? "below" : "above") + " global targets for reducing climate change.";
 
-            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+            Intent intent = new Intent(SurveyActivity.this, ResultActivity.class);
             intent.putExtra("totalCO2", totalCO2);
             intent.putExtra("transportationCO2", transportationCO2);
             intent.putExtra("foodCO2", foodCO2);
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
                 String selectedCountry = parentView.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this, "Selected Country: " + selectedCountry, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SurveyActivity.this, "Selected Country: " + selectedCountry, Toast.LENGTH_SHORT).show();
             }
 
             @Override
