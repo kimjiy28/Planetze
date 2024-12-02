@@ -49,6 +49,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    testImplementation (libs.junit.junit.v412)
+    testImplementation(libs.mockito.mockito.all)
+    testImplementation (libs.mockito.mockito.all)
+
 
     // BOM for firebase platform
     implementation(platform(libs.firebase.bom))
