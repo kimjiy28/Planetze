@@ -1,10 +1,12 @@
 package com.example.planetze;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,15 +24,23 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class RecordActivity extends AppCompatActivity {
 
     private String category, activity;
+    private static String date;
+
+    // Views
+    private EditText calendarManagement;
     private TextView tvCategorySpinner, tvActivitySpinner;
     private Spinner categorySpinner, activitySpinner;
     private ArrayAdapter<CharSequence> categoryAdapter, activityAdapter;
     private BottomNavigationView bottomNavigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +48,7 @@ public class RecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_record);
 
         //Views Initialization
+        calendarManagement = findViewById(R.id.calendarManagement);
         categorySpinner = findViewById(R.id.spCategory);
         categoryAdapter = ArrayAdapter.createFromResource(this, R.array.category, R.layout.spinner);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -62,6 +74,31 @@ public class RecordActivity extends AppCompatActivity {
             return false;
         });
 
+        // Calendar Management
+        if (EcoTrackerActivity.getDate() != null) {
+            date = EcoTrackerActivity.getDate();
+            calendarManagement.setText(date);
+        }
+        calendarManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(calendar.DAY_OF_MONTH);
+                int month = calendar.get(calendar.MONTH);
+                int year = calendar.get(calendar.YEAR);
+
+                DatePickerDialog picker = new DatePickerDialog(RecordActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        date = year + "-" + (month + 1) + "-" + dayOfMonth;
+                        calendarManagement.setText(date);
+                    }
+                }, year, month, day);
+                picker.show();
+            }
+        });
+
+        // Activity Selection
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -154,8 +191,8 @@ public class RecordActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-//    FirebaseUser uid = FirebaseAuth.getInstance().getCurrentUser();
-//    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-//    reference.child(uid.getUid()).child("survey").setValue("true")
+    public static String getDate() {
+        return date;
+    }
 
 }

@@ -55,10 +55,9 @@
 
     <string-array name="serving">
         <item> Select Number of Servings Consumed </item>
-        <item> 0 </item>
         <item> 1 </item>
         <item> 2 </item>
-        <item> 3+ </item>
+        <item> 3 </item>
     </string-array>
 
     <string-array name="consumptionList">
@@ -66,7 +65,7 @@
         <item> Clothes </item>
         <item> Electronics </item>
         <item> Other Purchases </item>
-        <item> Energy Bill </item>
+        <item> Energy Bills </item>
     </string-array>
 
     <string-array name="energyBills">

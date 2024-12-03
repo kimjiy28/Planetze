@@ -42,7 +42,9 @@ public class BreakdownAdapter extends RecyclerView.Adapter<BreakdownAdapter.Brea
             holder.category.setImageResource(R.drawable.consumption);
         }
         holder.activity.setText(activities.get(position).getActivity());
-        holder.emission.setText(Integer.toString(activities.get(position).getEmission()));
+        holder.emission.setText(Double.toString(activities.get(position).getEmission()));
+
+        // set onClickListener
     }
 
     @Override

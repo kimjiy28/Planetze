@@ -25,24 +25,34 @@
         />
 
     <TextView
-        android:id="@+id/distance"
+        android:id="@+id/hours"
         android:layout_below="@id/spType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Distance Traveled (km) *"
+        android:text="Hours Traveled *"
         android:layout_marginTop="24dp"
         android:padding="8dp"
         android:textSize="20sp"
         android:textColor="@color/darkblue"/>
 
     <EditText
-        android:id="@+id/txDistance"
+        android:id="@+id/txHours"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/distance"
-        android:hint="i.e. 100"
+        android:layout_below="@+id/hours"
+        android:hint="i.e. 2"
         android:padding="8dp"
         android:textSize="20sp"
         android:textColor="@color/darkblue" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_below="@id/txHours"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/green"
+        android:text="Submit" />
 
 </RelativeLayout>

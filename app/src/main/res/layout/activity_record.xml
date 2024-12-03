@@ -8,10 +8,23 @@
     tools:context=".RecordActivity"
     android:layout_margin="24dp" >
 
-    <TextView
-        android:id="@+id/category"
+    <EditText
+        android:id="@+id/calendarManagement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/date"
+        android:textAlignment="center"
+        android:textColor="@color/darkblue"
+        android:textSize="30sp"
+        android:textStyle="italic"
+        android:focusable="false" />
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_below="@id/calendarManagement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="Category *"
         android:padding="8dp"
         android:textSize="20sp"

@@ -36,10 +36,12 @@ public class EcoTrackerActivity extends AppCompatActivity {
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     // DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child("c04ro6FxLuaJ6TegP0wPmT8dzvp2");
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").
+            child("4U6brQiObtULMg94EPA2zN6nH2h1");
     int progress = 0;
     boolean started = true;
-    private int dailyEmission;
+    private static String date;
+    private double dailyEmission;
     private ArrayList<Breakdown> activityList;
     private BreakdownAdapter adapter;
 
@@ -81,7 +83,6 @@ public class EcoTrackerActivity extends AppCompatActivity {
             return false;
         });
 
-
         // Progress Animation
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
@@ -112,6 +113,10 @@ public class EcoTrackerActivity extends AppCompatActivity {
         });
 
         // Calendar Management
+        if (RecordActivity.getDate() != null) {
+            date = RecordActivity.getDate();
+            calendarManagement.setText(date);
+        }
         calendarManagement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,9 +128,8 @@ public class EcoTrackerActivity extends AppCompatActivity {
                 DatePickerDialog picker = new DatePickerDialog(EcoTrackerActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String date = Integer.toString(year * 10000 + (month + 1) * 100 + dayOfMonth);
-                        calendarManagement.setText(year + "/" + (month + 1) + "/" + dayOfMonth);
-                        reference = reference.child(date);
+                        date = year + "-" + (month + 1) + "-" + dayOfMonth;
+                        calendarManagement.setText(date);
 
                         // Display Carbon Emission Footprint
                         fetchDailyEmission();
@@ -141,27 +145,42 @@ public class EcoTrackerActivity extends AppCompatActivity {
                 picker.show();
             }
         });
+
+        if (date != null) {
+            calendarManagement.setText(date);
+
+            // Display Carbon Emission Footprint
+            fetchDailyEmission();
+
+            // Display Breakdown of Activities
+            recyclerView.setLayoutManager(new LinearLayoutManager(EcoTrackerActivity.this));
+            activityList = new ArrayList<Breakdown>();
+            adapter = new BreakdownAdapter(EcoTrackerActivity.this, activityList);
+            recyclerView.setAdapter(adapter);
+            fetchBreakdown();
+        }
+
     }
 
     private void fetchDailyEmission() {
-        DatabaseReference ref = reference.child("dailyEmission");
+        DatabaseReference ref = reference.child(date).child("dailyEmission");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
-                    dailyEmission = snapshot.getValue(Integer.class);
-                    textView.setText(Integer.toString(dailyEmission));
+                    dailyEmission = snapshot.getValue(Double.class);
+                    textView.setText(Double.toString(dailyEmission));
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", "Failed to fetch preexisting habits", error.toException());
+                Log.e("Firebase", "Failed to fetch Daily Emission", error.toException());
             }
         });
     }
+
     private void fetchBreakdown() {
-        DatabaseReference ref = reference.child("activities");
+        DatabaseReference ref = reference.child(date).child("activities");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -178,8 +197,12 @@ public class EcoTrackerActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Firebase", "Failed to fetch preexisting habits", error.toException());
+                Log.e("Firebase", "Failed to fetch Activity List", error.toException());
             }
         });
+    }
+
+    public static String getDate() {
+        return date;
     }
 }
