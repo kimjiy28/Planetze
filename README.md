@@ -51,6 +51,9 @@ Eco Hub: A resource center with educational content, and sustainability tips to 
     implementation(libs.google.firebase.database)
     implementation(libs.firebase.auth)
 
+# Contributors
+@bryntam, @kimjiy28, @lllJYlll, @rize7425, @wenkanhh
+
 # Assumptions Made
 Annual Carbon Footprint:
   1. Housing carbon emissions may be negative 
