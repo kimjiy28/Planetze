@@ -56,7 +56,7 @@ Eco Hub: A resource center with educational content, and sustainability tips to 
     implementation("com.github.anastr:speedviewlib:1.6.1")
 
 # Contributors
-@bryntam, @kimjiy28, @lllJYlll, @rize7425, @wenkanhh
+@bryntam, @kimjiy28, @lllJYlll, @Priscilla, @rize7425, @wenkanhh
 
 # Assumptions Made
 Annual Carbon Footprint:
