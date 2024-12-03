@@ -66,18 +66,21 @@ public class HabitActivity extends AccountActivity {
             return false;
         });
 
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "No user is logged in. Redirecting to login.", Toast.LENGTH_SHORT).show();
+            // Redirect to login activity
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+        userId = currentUser.getUid();
+
         userHabitsRef = FirebaseDatabase.getInstance()
                 .getReference("users")
                 .child(userId)
                 .child("habits");
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser == null) {
-            Toast.makeText(this, "No user is logged in", Toast.LENGTH_SHORT).show();
-            finish(); // Close the activity if no user is logged in
-            return;
-        }
-        userId = currentUser.getUid();
 
         // Initialize Firebase Realtime Database
         Log.d("Firebase", "Initializing Firebase");
