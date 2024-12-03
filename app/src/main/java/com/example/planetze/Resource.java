@@ -1,11 +1,11 @@
 package com.example.planetze;
 
 public class Resource {
-    private String type;
-    private String title;
-    private String description;
-    private String url;
-    private String image;
+    private final String type;
+    private final String title;
+    private final String description;
+    private final String url;
+    private final String image;
 
     public Resource(String type, String title, String description, String url, String image) {
         this.type = type;
