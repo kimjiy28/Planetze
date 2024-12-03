@@ -1,4 +1,4 @@
-package com.example.planetze.repository;
+/* package com.example.planetze.repository;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -32,6 +32,6 @@ public class HabitRepository {
                 });
     }
 
-} 
+} */
 
 

@@ -1,6 +1,8 @@
 package com.example.planetze;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +43,16 @@ public class ResourceAdapter extends RecyclerView.Adapter<ResourceAdapter.Resour
 
         Glide.with(context)
                 .load(resource.getImage()) // `resource.getImage()` is the URL from JSON
-                .error(R.drawable.error_image) //
+                .error(R.drawable.error_image)
                 .into(holder.image);
+
+        holder.image.setOnClickListener(v -> {
+            String url = resource.getUrl();
+            if (url != null && !url.isEmpty()) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

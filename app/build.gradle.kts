@@ -60,4 +60,5 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
 
     implementation("com.github.bumptech.glide:glide:4.15.1")
+
 }

@@ -15,10 +15,25 @@ public class Resource {
         this.image = image;
     }
 
-    public String getType() { return type; }
-    public String getTitle() { return title; }
-    public String getDescription() { return description; }
-    public String getUrl() { return url; }
-    public String getImage() { return image; }
+    public String getType() {
+        return type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getImage() {
+        return image;
+    }
 }
+
 
