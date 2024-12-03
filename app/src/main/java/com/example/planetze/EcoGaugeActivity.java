@@ -40,15 +40,15 @@ public class EcoGaugeActivity extends AccountActivity {
             if (item.getItemId() == R.id.tracker) {
                 startActivity(new Intent(getApplicationContext(), EcoTrackerActivity.class));
                 return true;
+            } else if (item.getItemId() == R.id.habit) {
+                startActivity(new Intent(getApplicationContext(), HabitActivity.class));
+                return true;
             } else if (item.getItemId() == R.id.add) {
                 startActivity(new Intent(getApplicationContext(), RecordActivity.class));
                 return true;
-            } else if (item.getItemId() == R.id.gauge) {
-                startActivity(new Intent(getApplicationContext(), EcoGaugeActivity.class));
-                return true;
             } else if (item.getItemId() == R.id.hub) {
-//                startActivity(new Intent(getApplicationContext(), EcoHubActivity.class));
-//                return true;
+                startActivity(new Intent(getApplicationContext(), EcoHubActivity.class));
+                return true;
             }
             return false;
         });

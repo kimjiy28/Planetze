@@ -80,8 +80,8 @@ public class RecordActivity extends AccountActivity {
                 startActivity(new Intent(getApplicationContext(), EcoGaugeActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.hub) {
-//                startActivity(new Intent(getApplicationContext(), EcoHubActivity.class));
-//                return true;
+                startActivity(new Intent(getApplicationContext(), EcoHubActivity.class));
+                return true;
             }
             return false;
         });

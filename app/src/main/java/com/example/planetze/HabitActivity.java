@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HabitActivity extends AccountActivity {
+
 
     private static final String TAG = "HabitActivity";
     private RecyclerView habitRecyclerView;
@@ -64,27 +67,23 @@ public class HabitActivity extends AccountActivity {
             return false;
         });
 
-        //HARD CODING A USER, DELETE LATER
-        userId = "c04ro6FxLuaJ6TegP0wPmT8dzvp2"; // Replace this
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Toast.makeText(this, "No user is logged in", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        String userId = user.getUid();
 
         userHabitsRef = FirebaseDatabase.getInstance()
                 .getReference("users")
                 .child(userId)
                 .child("habits");
 
-        //UNCOMMENT THIS LATER
-//        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-//        if (currentUser == null) {
-//            Toast.makeText(this, "No user is logged in", Toast.LENGTH_SHORT).show();
-//            finish(); // Close the activity if no user is logged in
-//            return;
-//        }
-//        userId = currentUser.getUid();
 
         // Initialize Firebase Realtime Database
         Log.d("Firebase", "Initializing Firebase");
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://planetze-4ccca-default-rtdb.firebaseio.com/");
-        DatabaseReference habitsRef = database.getReference("users").child("c04ro6FxLuaJ6TegP0wPmT8dzvp2").child("habits");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference habitsRef = database.getReference("users").child(userId).child("habits");
 
 
         userHabitsRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("habits");

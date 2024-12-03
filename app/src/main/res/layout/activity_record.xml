@@ -77,7 +77,8 @@
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spActivity" />
+        android:layout_below="@id/spActivity"
+        android:layout_marginHorizontal="24dp"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
