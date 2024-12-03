@@ -34,7 +34,11 @@ public class EmissionBreakdownAdapter extends RecyclerView.Adapter<EmissionBreak
     public int getItemCount() {
         return emissionList.size();
     }
-
+    public void updateEmissionList(List<EmissionCategory> newEmissionList) {
+        this.emissionList.clear();
+        this.emissionList.addAll(newEmissionList);
+        notifyDataSetChanged(); // Notify RecyclerView to refresh
+    }
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView categoryTextView, percentageTextView;
 

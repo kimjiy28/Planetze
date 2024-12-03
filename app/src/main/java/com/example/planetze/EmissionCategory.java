@@ -2,9 +2,9 @@ package com.example.planetze;
 
 public class EmissionCategory {
     private String category;
-    private int percentage;
+    private Double percentage;
 
-    public EmissionCategory(String category, int percentage) {
+    public EmissionCategory(String category, Double percentage) {
         this.category = category;
         this.percentage = percentage;
     }
@@ -13,7 +13,7 @@ public class EmissionCategory {
         return category;
     }
 
-    public int getPercentage() {
+    public Double getPercentage() {
         return percentage;
     }
 }
