@@ -14,10 +14,13 @@ import java.util.ArrayList;
 
 public class BreakdownAdapter extends RecyclerView.Adapter<BreakdownAdapter.BreakdownViewHolder> {
 
+    private final BreakdownViewInterface breakdownViewInterface;
     Context context;
     ArrayList<Breakdown> activities;
 
-    public BreakdownAdapter(Context context, ArrayList<Breakdown> activities) {
+    public BreakdownAdapter(Context context, ArrayList<Breakdown> activities,
+                            BreakdownViewInterface breakdownViewInterface) {
+        this.breakdownViewInterface = breakdownViewInterface;
         this.context = context;
         this.activities = activities;
     }
@@ -28,7 +31,7 @@ public class BreakdownAdapter extends RecyclerView.Adapter<BreakdownAdapter.Brea
         // inflate the layout
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.breakdown_component, parent, false);
-        return new BreakdownAdapter.BreakdownViewHolder(view);
+        return new BreakdownAdapter.BreakdownViewHolder(view, breakdownViewInterface, activities);
     }
 
     @Override
@@ -43,8 +46,6 @@ public class BreakdownAdapter extends RecyclerView.Adapter<BreakdownAdapter.Brea
         }
         holder.activity.setText(activities.get(position).getActivity());
         holder.emission.setText(Double.toString(activities.get(position).getEmission()));
-
-        // set onClickListener
     }
 
     @Override
@@ -57,12 +58,26 @@ public class BreakdownAdapter extends RecyclerView.Adapter<BreakdownAdapter.Brea
         ImageView category;
         TextView activity, emission;
 
-        public BreakdownViewHolder(@NonNull View itemView) {
+        public BreakdownViewHolder(@NonNull View itemView,
+                                   BreakdownViewInterface breakdownViewInterface,
+                                   ArrayList<Breakdown> activities) {
             super(itemView);
 
             category = itemView.findViewById(R.id.rvCategory);
             activity = itemView.findViewById(R.id.rvActivity);
             emission = itemView.findViewById(R.id.rvEmission);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (breakdownViewInterface != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            breakdownViewInterface.onItemClicked(position, activities);
+                        }
+                    }
+                }
+            });
         }
 
 

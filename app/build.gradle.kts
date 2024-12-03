@@ -59,7 +59,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
 
     implementation("com.github.cjhandroid:WaveProgressBar:v1.0.0")
-
-    implementation("com.github.anastr:speedviewlib:1.5.4")
+    implementation("com.github.anastr:speedviewlib:1.6.1")
 
 }

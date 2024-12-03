@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +94,7 @@ public class EnergyBillsFragment extends Fragment {
                                     dailyEmission = snapshot.getValue(Double.class);
                                     tvBill.setText("");
                                     typeSpinner.setSelection(0);
+                                    Log.d("Fetched", "Current Daily Emission / " + dailyEmission);
                                 }
                             }
                             @Override

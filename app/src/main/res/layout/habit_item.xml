@@ -10,9 +10,12 @@
         android:id="@+id/deleteHabitButton"
         android:layout_width="52dp"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="2dp"
         android:layout_gravity="start"
+        android:backgroundTint="@color/grey"
         android:padding="0dp"
         android:text="Delete"
+        android:textColor="@color/darkblue"
         android:textSize="7sp" />
 
     <TextView
@@ -20,6 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginHorizontal="2dp"
         android:text="Habit Name"
         android:textSize="13sp"
         android:textStyle="bold" />
@@ -27,6 +31,7 @@
         android:id="@+id/habitImpactLevelTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="2dp"
         android:text="Impact: 0"
         android:textSize="13sp"
         android:textColor="#666666"
@@ -37,6 +42,7 @@
         android:id="@+id/habitDays"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="2dp"
         android:text="Days: 0"
         android:textSize="13sp"
         android:textColor="#000000"
@@ -47,5 +53,8 @@
         android:id="@+id/incrementDaysButton"
         android:layout_width="65dp"
         android:layout_height="48dp"
+        android:layout_marginHorizontal="2dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/green"
         android:text="+1" />
 </LinearLayout>

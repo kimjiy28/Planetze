@@ -2,6 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="8dp"
     android:orientation="vertical">
 
     <!-- Back Button -->
@@ -10,21 +11,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
+        android:backgroundTint="@color/blue"
         android:layout_gravity="start" />
 
     <!-- Title Text -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose a Habit"
-        android:textSize="20sp"
-        android:layout_margin="16dp" />
+        android:layout_marginTop="24dp"
+        android:text="Select a Habit"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/darkblue"
+        android:textSize="30sp" />
 
     <!-- Search View for Habit Search -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/habitSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
         android:queryHint="Search Habits..." />
 
     <!-- Spinner for Category Filter -->

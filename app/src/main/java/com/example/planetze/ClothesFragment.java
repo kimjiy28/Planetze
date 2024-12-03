@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public class ClothesFragment extends Fragment {
                                 if (snapshot.getValue() != null) {
                                     dailyEmission = snapshot.getValue(Double.class);
                                     tvAmount.setText("");
+                                    Log.d("Fetched", "Current Daily Emission / " + dailyEmission);
                                 }
                             }
                             @Override

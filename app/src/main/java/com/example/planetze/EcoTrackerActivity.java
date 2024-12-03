@@ -32,7 +32,7 @@ import java.util.TimerTask;
 
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
-public class EcoTrackerActivity extends AppCompatActivity {
+public class EcoTrackerActivity extends AppCompatActivity implements BreakdownViewInterface {
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     // DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
@@ -56,6 +56,7 @@ public class EcoTrackerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eco_tracker);
+        BreakdownViewInterface breakdownViewInterface = this;
 
         // Views Initialization
         calendarManagement = findViewById(R.id.calendarManagement);
@@ -137,7 +138,8 @@ public class EcoTrackerActivity extends AppCompatActivity {
                         // Display Breakdown of Activities
                         recyclerView.setLayoutManager(new LinearLayoutManager(EcoTrackerActivity.this));
                         activityList = new ArrayList<Breakdown>();
-                        adapter = new BreakdownAdapter(EcoTrackerActivity.this, activityList);
+                        adapter = new BreakdownAdapter(EcoTrackerActivity.this, activityList,
+                                breakdownViewInterface);
                         recyclerView.setAdapter(adapter);
                         fetchBreakdown();
                     }
@@ -155,7 +157,8 @@ public class EcoTrackerActivity extends AppCompatActivity {
             // Display Breakdown of Activities
             recyclerView.setLayoutManager(new LinearLayoutManager(EcoTrackerActivity.this));
             activityList = new ArrayList<Breakdown>();
-            adapter = new BreakdownAdapter(EcoTrackerActivity.this, activityList);
+            adapter = new BreakdownAdapter(EcoTrackerActivity.this, activityList,
+                    breakdownViewInterface);
             recyclerView.setAdapter(adapter);
             fetchBreakdown();
         }
@@ -204,5 +207,12 @@ public class EcoTrackerActivity extends AppCompatActivity {
 
     public static String getDate() {
         return date;
+    }
+
+    @Override
+    public void onItemClicked(int position, ArrayList<Breakdown> activities) {
+        Intent update = new Intent(EcoTrackerActivity.this, RecordActivity.class);
+        update.putExtra("id", activities.get(position).getId());
+        startActivity(update);
     }
 }

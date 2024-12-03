@@ -10,6 +10,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -30,6 +31,11 @@ import java.util.Calendar;
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class RecordActivity extends AppCompatActivity {
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    // DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").
+            child("4U6brQiObtULMg94EPA2zN6nH2h1");
 
     private String category, activity;
     private static String date;
@@ -65,8 +71,8 @@ public class RecordActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), HabitActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.gauge) {
-//                startActivity(new Intent(getApplicationContext(), EcoGaugeActivity.class));
-//                return true;
+                startActivity(new Intent(getApplicationContext(), EcoGaugeActivity.class));
+                return true;
             } else if (item.getItemId() == R.id.hub) {
 //                startActivity(new Intent(getApplicationContext(), EcoHubActivity.class));
 //                return true;
@@ -78,6 +84,12 @@ public class RecordActivity extends AppCompatActivity {
         if (EcoTrackerActivity.getDate() != null) {
             date = EcoTrackerActivity.getDate();
             calendarManagement.setText(date);
+        }
+        // Edit Activity
+        String id = getIntent().getStringExtra("id");
+        if (id != null ) {
+            reference.child(date).child("activities").child(id).removeValue();
+            Toast.makeText(this, "Update Your Activity", Toast.LENGTH_SHORT).show();
         }
         calendarManagement.setOnClickListener(new View.OnClickListener() {
             @Override

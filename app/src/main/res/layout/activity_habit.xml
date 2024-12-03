@@ -14,8 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Habits"
-        android:textSize="24sp"
+        android:text="Habit Tracking"
+        android:textColor="@color/darkblue"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
         android:paddingBottom="16dp" />
@@ -26,8 +27,7 @@
         android:layout_below="@id/habitHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_weight="1" />
+        android:layout_centerHorizontal="true" />
 
     <!-- Floating Action Button to Add New Habit -->
     <androidx.appcompat.widget.AppCompatImageButton
@@ -38,7 +38,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:background="@drawable/circle_background"
-        android:backgroundTint="#03A9F4"
+        android:backgroundTint="@color/lightgreen"
         android:src="@drawable/baseline_add_24" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

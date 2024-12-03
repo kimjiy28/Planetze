@@ -96,6 +96,7 @@ public class PublicTransportationFragment extends Fragment {
                                     dailyEmission = snapshot.getValue(Double.class);
                                     typeSpinner.setSelection(0);
                                     tvHour.setText("");
+                                    Log.d("Fetched", "Current Daily Emission / " + dailyEmission);
                                 }
                             }
                             @Override

@@ -110,6 +110,7 @@ public class MealFragment extends Fragment {
                             dailyEmission = snapshot.getValue(Double.class);
                             mealTypeSpinner.setSelection(0);
                             servingSpinner.setSelection(0);
+                            Log.d("Fetched", "Current Daily Emission / " + dailyEmission);
                         }
                     }
                     @Override

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/emissionCategoryTextView"
@@ -11,12 +11,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Category"
-        android:textSize="16sp" />
+        android:textColor="@color/darkblue"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/emissionPercentageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0%"
-        android:textSize="16sp" />
+        android:textStyle="bold"
+        android:textColor="@color/green"
+        android:textSize="24sp" />
 </LinearLayout>
