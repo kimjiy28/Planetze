@@ -67,12 +67,15 @@ public class HabitActivity extends AccountActivity {
             return false;
         });
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            Toast.makeText(this, "No user is logged in", Toast.LENGTH_SHORT).show();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "No user is logged in. Redirecting to login.", Toast.LENGTH_SHORT).show();
+            // Redirect to login activity
             startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
         }
-        String userId = user.getUid();
+        userId = currentUser.getUid();
 
         userHabitsRef = FirebaseDatabase.getInstance()
                 .getReference("users")

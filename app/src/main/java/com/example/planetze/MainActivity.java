@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     // Firebase
     private FirebaseAuth auth;
     private FirebaseUser user;
-
     // Views
     private BottomNavigationView bottomNavigationView;
     private Button logout, survey;

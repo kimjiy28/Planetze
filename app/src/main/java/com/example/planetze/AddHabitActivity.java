@@ -47,18 +47,20 @@ public class AddHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            Toast.makeText(this, "No user is logged in", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, LoginActivity.class));
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
-        String userId = user.getUid();
+        String userId = currentUser.getUid();
 
         // Initialize Firebase Realtime Database references
         userHabitsRef = FirebaseDatabase.getInstance()
                 .getReference("users")
                 .child(userId)
                 .child("habits");
+
         // Initialize Firebase reference
         preexistingHabitsRef = FirebaseDatabase.getInstance().getReference("preexistingHabits");
 
