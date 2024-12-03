@@ -39,4 +39,5 @@
         <item>Waste Management</item>
         <item>Recycling</item>
     </string-array>
+    <string name="content_description_image">Image representing the resource</string>
 </resources>

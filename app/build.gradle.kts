@@ -52,7 +52,7 @@ dependencies {
     testImplementation (libs.junit.junit.v412)
     testImplementation(libs.mockito.mockito.all)
     testImplementation (libs.mockito.mockito.all)
-
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
 
     // BOM for firebase platform
     implementation(platform(libs.firebase.bom))
@@ -65,5 +65,6 @@ dependencies {
     // External Resources
     implementation("com.github.cjhandroid:WaveProgressBar:v1.0.0")
     implementation("com.github.anastr:speedviewlib:1.6.1")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
 
 }

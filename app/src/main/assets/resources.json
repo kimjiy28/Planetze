@@ -1,0 +1,46 @@
+{
+  "resources": [
+    {
+      "type": "video",
+      "title": "Understanding Carbon Footprint",
+      "description": "Watch this BBC video explaining about carbon footprint!",
+      "url": "https://www.youtube.com/watch?v=a9yO-K8mwL0",
+      "image": "https://ichef.bbci.co.uk/images/ic/1920x1080/p09rqzb8.jpg"
+    },
+    {
+      "type": "article",
+      "title": "The Effects of Climate Change",
+      "description": "What exactly are the effects of climate change? Why do we want to prevent it? Read this article to find out!",
+      "url": "https://science.nasa.gov/climate-change/effects/",
+      "image": "https://assets.science.nasa.gov/dynamicimage/assets/science/esd/climate/internal_resources/2710/Effects_page_triptych.jpeg?w=2048&format=webp&fit=clip&crop=faces%2Cfocalpoint"
+    },
+    {
+      "type": "article",
+      "title": "The Future of Eco-Friendly Products",
+      "description": "Are eco-friendly products on the rise? Look into a trend analysis report on eco-friendly products!",
+      "url": "https://gnatta.com/blog/future-eco-friendly-products-trend-analysis-report/",
+      "image": "https://gnatta.com/wp-content/uploads/2022/07/gnatta-top-20-most-searched-eco-friendly-products-1.png"
+    },
+    {
+      "type": "product",
+      "title": "Eco Laundry Powder",
+      "description": "What's a way you can implement eco-friendly habits in your home? Check out this natural laundry detergent powder!",
+      "url": "https://earthhero.com/products/meliora-natural-powder-laundry-detergent",
+      "image": "https://path.to/laundry_powder_thumbnail.jpg"
+    },
+    {
+      "type":"product",
+      "title": "Bamboo Toothbrush",
+      "description": "An eco-friendly way to take care of your oral hygiene: Check out the bamboo toothbrush!",
+      "url": "https://thegreenway.ca/collections/sustainable-oral-care/products/bamboo-adult-toothbrush",
+      "image": "https://thegreenway.ca/cdn/shop/products/BAMBOOTOOTHBRUSH_ADULT_1500dc7b-ca71-49e0-89a2-819ef042ee45_1796x.jpg?v=1613451637"
+    },
+    {
+      "type": "product",
+      "title": "Sustainable Fashion",
+      "description": "Learn more about this sustainable fashion company in Canada!",
+      "url": "https://wearfranc.com/",
+      "image": "https://wearfranc.com/cdn/shop/files/DSC_3403.jpg?v=1713365326&width=720"
+    }
+  ]
+}
