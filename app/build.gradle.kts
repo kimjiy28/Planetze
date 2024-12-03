@@ -61,4 +61,9 @@ dependencies {
     // Firebase Products
     implementation(libs.google.firebase.database)
     implementation(libs.firebase.auth)
+
+    // External Resources
+    implementation("com.github.cjhandroid:WaveProgressBar:v1.0.0")
+    implementation("com.github.anastr:speedviewlib:1.6.1")
+
 }

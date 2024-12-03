@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/ecoGaugeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Eco Gauge"
+        android:textColor="@color/darkblue"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Gauge -->
+    <com.github.anastr.speedviewlib.SpeedView
+        android:id="@+id/ecoGauge"
+        android:layout_below="@id/ecoGaugeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundGravity="center_horizontal"
+        app:sv_maxSpeed="100"
+        app:sv_unit="kg CO2e"
+        app:sv_withTremble="false"
+        app:sv_indicator="NeedleIndicator" />
+
+    <!-- CO2e Emissions Breakdown -->
+    <TextView
+        android:id="@+id/txView"
+        android:layout_below="@id/ecoGauge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carbon Emission Breakown:"
+        android:textColor="@color/darkblue"
+        android:textSize="18sp"
+        android:layout_marginTop="24dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/txView"
+        android:id="@+id/emissionBreakdownRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottomNavigationView"
+        android:layout_alignParentBottom ="true"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bottom_background"
+        app:menu="@menu/bottom_menu"
+        app:itemIconSize="32dp"
+        app:itemIconTint="@drawable/item_selector"
+        app:itemRippleColor="@android:color/transparent"
+        app:labelVisibilityMode="unlabeled" />
+
+
+</RelativeLayout>
+
