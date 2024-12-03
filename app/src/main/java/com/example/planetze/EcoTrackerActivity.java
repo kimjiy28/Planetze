@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,10 +36,10 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class EcoTrackerActivity extends AccountActivity implements BreakdownViewInterface {
 
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    // DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").
-            child("4U6brQiObtULMg94EPA2zN6nH2h1");
+    // Database
+    FirebaseUser user;
+    DatabaseReference reference;
+
     int progress = 0;
     boolean started = true;
     private static String date;
@@ -59,6 +60,14 @@ public class EcoTrackerActivity extends AccountActivity implements BreakdownView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eco_tracker);
         BreakdownViewInterface breakdownViewInterface = this;
+
+        // Firebase
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Toast.makeText(this, "No user is logged in", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
 
         // Upper Toolbar
         appbar = findViewById(R.id.appbar);
@@ -84,8 +93,8 @@ public class EcoTrackerActivity extends AccountActivity implements BreakdownView
                startActivity(new Intent(getApplicationContext(), EcoGaugeActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.hub) {
-//                startActivity(new Intent(getApplicationContext(), EcoHubActivity.class));
-//                return true;
+                startActivity(new Intent(getApplicationContext(), EcoHubActivity.class));
+                return true;
             }
             return false;
         });

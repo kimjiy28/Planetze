@@ -25,6 +25,7 @@ import java.util.List;
 
 public class HabitActivity extends AccountActivity {
 
+
     private static final String TAG = "HabitActivity";
     private RecyclerView habitRecyclerView;
     private HabitAdapter habitAdapter;
@@ -84,8 +85,8 @@ public class HabitActivity extends AccountActivity {
 
         // Initialize Firebase Realtime Database
         Log.d("Firebase", "Initializing Firebase");
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://planetze-4ccca-default-rtdb.firebaseio.com/");
-        DatabaseReference habitsRef = database.getReference("users").child("c04ro6FxLuaJ6TegP0wPmT8dzvp2").child("habits");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference habitsRef = database.getReference("users").child(userId).child("habits");
 
 
         userHabitsRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("habits");

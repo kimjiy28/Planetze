@@ -28,9 +28,7 @@ public class MealFragment extends Fragment {
 
     // Firebase
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    // DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").
-            child("4U6brQiObtULMg94EPA2zN6nH2h1");
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
 
     // Fields to Record
     private static String date;
