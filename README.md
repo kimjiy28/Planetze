@@ -51,6 +51,10 @@ Eco Hub: A resource center with educational content, and sustainability tips to 
     implementation(libs.google.firebase.database)
     implementation(libs.firebase.auth)
 
+    // External Resources
+    implementation("com.github.cjhandroid:WaveProgressBar:v1.0.0")
+    implementation("com.github.anastr:speedviewlib:1.6.1")
+
 # Contributors
 @bryntam, @kimjiy28, @lllJYlll, @rize7425, @wenkanhh
 
