@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category">
+        <item> Select Category </item>
+        <item> Transportation </item>
+        <item> Food </item>
+        <item> Consumption </item>
+    </string-array>
+
+    <string-array name="defaultList">
+        <item> Select Activity </item>
+    </string-array>
+
+    <string-array name="transportationList">
+        <item> Select Activity </item>
+        <item> Personal Vehicle </item>
+        <item> Public Transportation </item>
+        <item> Cycling or Walking </item>
+        <item> Flight </item>
+    </string-array>
+
+    <string-array name="publicTransportation">
+        <item> Select Type of Public Transportation </item>
+        <item> Bus </item>
+        <item> Train </item>
+        <item> Subway </item>
+    </string-array>
+
+    <string-array name="vehicle">
+        <item> Gasoline </item>
+        <item> Diesel </item>
+        <item> Hybrid </item>
+        <item> Electric </item>
+    </string-array>
+
+    <string-array name="length">
+        <item> Select Length of Travel </item>
+        <item> Short-haul (less than 1,500 km) </item>
+        <item> Long-haul (more than 1,500 km) </item>
+    </string-array>
+
+    <string-array name="foodList">
+        <item> Select Activity </item>
+        <item> Meal </item>
+    </string-array>
+
+    <string-array name="mealType">
+        <item> Select Meal Type </item>
+        <item> Beef </item>
+        <item> Pork </item>
+        <item> Chicken </item>
+        <item> Fish </item>
+        <item> Plant-Based </item>
+    </string-array>
+
+    <string-array name="serving">
+        <item> Select Number of Servings Consumed </item>
+        <item> 1 </item>
+        <item> 2 </item>
+        <item> 3 </item>
+    </string-array>
+
+    <string-array name="consumptionList">
+        <item> Select Item Purchase </item>
+        <item> Clothes </item>
+        <item> Electronics </item>
+        <item> Other Purchases </item>
+        <item> Energy Bills </item>
+    </string-array>
+
+    <string-array name="energyBills">
+        <item> Select Your Energy Bill </item>
+        <item> Electricity </item>
+        <item> Gas </item>
+        <item> Water </item>
+    </string-array>
+
+</resources>

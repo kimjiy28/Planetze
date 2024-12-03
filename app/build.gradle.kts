@@ -45,20 +45,26 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
+    testImplementation (libs.junit.junit.v412)
+    testImplementation(libs.mockito.mockito.all)
+    testImplementation (libs.mockito.mockito.all)
     implementation("androidx.recyclerview:recyclerview:1.3.0")
 
     // BOM for firebase platform
-    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
-    implementation("com.google.firebase:firebase-analytics")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
 
     // Firebase Products
-    implementation("com.google.firebase:firebase-database")
-    implementation("com.google.firebase:firebase-auth")
+    implementation(libs.google.firebase.database)
+    implementation(libs.firebase.auth)
 
+    // External Resources
+    implementation("com.github.cjhandroid:WaveProgressBar:v1.0.0")
+    implementation("com.github.anastr:speedviewlib:1.6.1")
     implementation("com.github.bumptech.glide:glide:4.15.1")
 
 }

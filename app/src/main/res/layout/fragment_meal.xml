@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MealFragment">
+
+    <TextView
+        android:id="@+id/mealType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Type of Meal *"
+        android:padding="8dp"
+        android:textSize="20sp"
+        android:textColor="@color/darkblue"/>
+
+    <Spinner
+        android:id="@+id/spMealType"
+        android:layout_below="@id/mealType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textSize="18sp"
+        android:textColor="@color/darkblue"
+        />
+
+    <TextView
+        android:id="@+id/serving"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Number of Servings Consumed *"
+        android:layout_below="@+id/spMealType"
+        android:padding="8dp"
+        android:layout_marginTop="24dp"
+        android:textSize="20sp"
+        android:textColor="@color/darkblue"/>
+
+    <Spinner
+        android:id="@+id/spServing"
+        android:layout_below="@id/serving"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textSize="18sp"
+        android:textColor="@color/darkblue"
+        />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_below="@id/spServing"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/green"
+        android:text="Submit" />
+
+
+</RelativeLayout>
