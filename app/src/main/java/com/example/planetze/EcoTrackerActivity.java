@@ -72,8 +72,8 @@ public class EcoTrackerActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), RecordActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.gauge) {
-//                startActivity(new Intent(getApplicationContext(), EcoGaugeActivity.class));
-//                return true;
+               startActivity(new Intent(getApplicationContext(), EcoGaugeActivity.class));
+                return true;
             } else if (item.getItemId() == R.id.hub) {
 //                startActivity(new Intent(getApplicationContext(), EcoHubActivity.class));
 //                return true;
