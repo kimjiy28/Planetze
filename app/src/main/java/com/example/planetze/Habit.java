@@ -1,14 +1,14 @@
 package com.example.planetze;
 
 public class Habit {
-    private String id; // Firestore document ID
+    private String id; // document ID
     private String name; // Name of the habit
     private String description; // Description of the habit
     private String category; // Category of the habit
     private int impactLevel; // Impact level (e.g., High, Medium, Low)
     private int daysCompleted; // Number of days the habit has been completed
 
-    // No-argument constructor required for Firestore
+    // No-argument constructor
     public Habit() {
     }
 
