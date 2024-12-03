@@ -24,42 +24,72 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseAuth auth;
-    Button button;
-    TextView textView;
-    FirebaseUser user;
+    // Firebase
+    private FirebaseAuth auth;
+    private FirebaseUser user;
+
+    // Views
+    private BottomNavigationView bottomNavigationView;
+    private Button logout, survey;
+    private TextView tvID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
+        // Users
         auth = FirebaseAuth.getInstance();
-        button = findViewById(R.id.logout);
-        textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
 
+        // Views
+        logout = findViewById(R.id.logout);
+        survey = findViewById(R.id.survey);
+        tvID = findViewById(R.id.email);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        // Bottom Navigation
+        bottomNavigationView.setSelectedItemId(R.id.tracker);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.habit) {
+                startActivity(new Intent(getApplicationContext(), HabitActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.add) {
+                startActivity(new Intent(getApplicationContext(), RecordActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.gauge) {
+                startActivity(new Intent(getApplicationContext(), EcoGaugeActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.hub) {
+//                startActivity(new Intent(getApplicationContext(), EcoHubActivity.class));
+//                return true;
+            }
+            return false;
+        });
+
         if (user == null){
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
+            Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(login);
             finish();
-        }
-        else{
-            textView.setText(user.getEmail());
+        } else{
+            tvID.setText(user.getEmail());
         }
 
-        button.setOnClickListener(new View.OnClickListener() {
+        survey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent survey = new Intent(getApplicationContext(), SurveyActivity.class);
+                startActivity(survey);
+                finish();
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
+                Intent logout = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(logout);
                 finish();
             }
         });

@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Planetze">
         <activity
-            android:name=".UpdateActivity"
+            android:name=".AccountActivity"
             android:exported="false" />
         <activity
             android:name=".EcoTrackerActivity"
@@ -34,7 +34,7 @@
         <activity
             android:name=".SurveyActivity"
             android:exported="true"
-            android:label="@string/app_name"/>
+            android:label="@string/app_name" />
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="false" />
@@ -43,6 +43,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -52,8 +53,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>

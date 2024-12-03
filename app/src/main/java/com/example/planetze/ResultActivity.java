@@ -20,7 +20,7 @@ public class ResultActivity extends AppCompatActivity {
         toActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EcoTrackerActivity.class);
                 startActivity(intent);
                 finish();
             }

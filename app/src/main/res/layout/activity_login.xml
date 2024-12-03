@@ -17,7 +17,7 @@
         android:text="@string/login"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:layout_marginBottom="10dp"
+        android:layout_marginVertical="24dp"
         android:textColor="@color/teal_700"/>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -56,23 +56,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button_login"
-        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/green"
+        android:layout_marginTop="16dp"
         android:text="@string/login"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
         android:id="@+id/switchToSignup"
         android:text="@string/sign_up_here"
-        android:gravity="center"
-        android:paddingTop="10dp"/>
+        android:gravity="center" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/forgotpassword"
         android:text="@string/reset_password"
-        android:gravity="center"
-        android:paddingTop="10dp"/>
+        android:gravity="center" />
 
 </LinearLayout>

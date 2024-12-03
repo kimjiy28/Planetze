@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HabitActivity extends AppCompatActivity {
+public class HabitActivity extends AccountActivity {
 
     private static final String TAG = "HabitActivity";
     private RecyclerView habitRecyclerView;
@@ -30,6 +31,7 @@ public class HabitActivity extends AppCompatActivity {
     private List<Habit> habitList;
     private String userId;
     private BottomNavigationView bottomNavigationView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,10 @@ public class HabitActivity extends AppCompatActivity {
 
         //  Views Initialization
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        // Upper Toolbar
+        toolbar = findViewById(R.id.appbar);
+        setSupportActionBar(toolbar);
 
         // Bottom Navigation
         bottomNavigationView.setSelectedItemId(R.id.habit);

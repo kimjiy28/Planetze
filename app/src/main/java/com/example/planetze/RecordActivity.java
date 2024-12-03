@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,7 +31,7 @@ import java.util.Calendar;
 
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
-public class RecordActivity extends AppCompatActivity {
+public class RecordActivity extends AccountActivity {
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     // DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
@@ -46,6 +47,7 @@ public class RecordActivity extends AppCompatActivity {
     private Spinner categorySpinner, activitySpinner;
     private ArrayAdapter<CharSequence> categoryAdapter, activityAdapter;
     private BottomNavigationView bottomNavigationView;
+    private Toolbar toolbar;
 
 
     @Override
@@ -60,6 +62,10 @@ public class RecordActivity extends AppCompatActivity {
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        // Upper Toolbar
+        toolbar = findViewById(R.id.appbar);
+        setSupportActionBar(toolbar);
 
         // Bottom Navigation
         bottomNavigationView.setSelectedItemId(R.id.add);

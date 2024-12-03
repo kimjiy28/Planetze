@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +33,7 @@ import java.util.TimerTask;
 
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
-public class EcoTrackerActivity extends AppCompatActivity implements BreakdownViewInterface {
+public class EcoTrackerActivity extends AccountActivity implements BreakdownViewInterface {
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     // DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
@@ -46,6 +47,7 @@ public class EcoTrackerActivity extends AppCompatActivity implements BreakdownVi
     private BreakdownAdapter adapter;
 
     // Views
+    private Toolbar appbar;
     EditText calendarManagement;
     TextView textView;
     WaveProgressBar waveProgressBar;
@@ -57,6 +59,10 @@ public class EcoTrackerActivity extends AppCompatActivity implements BreakdownVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eco_tracker);
         BreakdownViewInterface breakdownViewInterface = this;
+
+        // Upper Toolbar
+        appbar = findViewById(R.id.appbar);
+        setSupportActionBar(appbar);
 
         // Views Initialization
         calendarManagement = findViewById(R.id.calendarManagement);

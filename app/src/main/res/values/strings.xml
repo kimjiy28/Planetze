@@ -14,8 +14,7 @@
     <string name="reset_password_title">Reset Password</string>
     <string name="send_email">Send email</string>
     <string name="go_back_to_login">Go back to login</string>
-    <string
-        name="enter_in_your_email_and_we_will_send_a_password_reset_email"> Enter in your email and we will send a password reset email
+    <string name="enter_in_your_email_and_we_will_send_a_password_reset_email"> Enter in your email and we will send a password reset email
     </string>
     <string name="select_an_option">Select an option</string>
     <string name="submit">Submit</string>

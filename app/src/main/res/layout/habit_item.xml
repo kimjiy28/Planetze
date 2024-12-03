@@ -8,13 +8,13 @@
 
     <Button
         android:id="@+id/deleteHabitButton"
-        android:layout_width="52dp"
-        android:layout_height="match_parent"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="2dp"
         android:layout_gravity="start"
         android:backgroundTint="@color/grey"
         android:padding="0dp"
-        android:text="Delete"
+        android:text="X"
         android:textColor="@color/darkblue"
         android:textSize="7sp" />
 
@@ -51,9 +51,8 @@
     <!-- Increment Button -->
     <Button
         android:id="@+id/incrementDaysButton"
-        android:layout_width="65dp"
-        android:layout_height="48dp"
-        android:layout_marginHorizontal="2dp"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:backgroundTint="@color/green"
         android:text="+1" />

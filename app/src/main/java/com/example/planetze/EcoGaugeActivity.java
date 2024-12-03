@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.github.anastr.speedviewlib.SpeedView;
@@ -12,12 +13,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EcoGaugeActivity extends AppCompatActivity {
+public class EcoGaugeActivity extends AccountActivity {
 
     private SpeedView ecoGauge;
     private RecyclerView emissionBreakdownRecyclerView;
     private EmissionBreakdownAdapter adapter;
     private BottomNavigationView bottomNavigationView;
+    private Toolbar toolbar;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -25,7 +27,12 @@ public class EcoGaugeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eco_gauge);
 
+        // Views initialization
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        // Upper Toolbar
+        toolbar = findViewById(R.id.appbar);
+        setSupportActionBar(toolbar);
 
         // Bottom Navigation
         bottomNavigationView.setSelectedItemId(R.id.gauge);

@@ -4,12 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
+
+    <include android:id="@+id/appbar"
+        layout="@layout/appbar" />
 
     <!-- Title -->
     <TextView
         android:id="@+id/ecoGaugeTitle"
+        android:layout_below="@id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -26,6 +29,8 @@
         android:layout_below="@id/ecoGaugeTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="24dp"
         android:foregroundGravity="center_horizontal"
         app:sv_maxSpeed="100"
         app:sv_unit="kg CO2e"
@@ -41,18 +46,21 @@
         android:text="Carbon Emission Breakown:"
         android:textColor="@color/darkblue"
         android:textSize="18sp"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="24dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@id/txView"
         android:id="@+id/emissionBreakdownRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="8dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="24dp"
         android:id="@+id/bottomNavigationView"
         android:layout_alignParentBottom ="true"
         android:layout_marginTop="24dp"
