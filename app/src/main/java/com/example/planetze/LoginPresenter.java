@@ -8,9 +8,9 @@ public class LoginPresenter {
     private final LoginView view;
     private final LoginModel model;
 
-    public LoginPresenter(LoginView view) {
+    public LoginPresenter(LoginView view, LoginModel model) {
         this.view = view;
-        this.model = new LoginModel();
+        this.model = model;
     }
 
     public void checkUserLoggedIn() {
