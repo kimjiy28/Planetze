@@ -35,7 +35,7 @@ public class Breakdown  {
         return emission;
     }
 
-    public void setEmission(int emission) {
+    public void setEmission(double emission) {
         this.emission = emission;
     }
 }
@@ -210,7 +210,7 @@ class Food extends Breakdown {
         } else {
             perServing = 0.9;
         }
-        this.emission = serving * perServing;
+        this.emission = (double)serving * perServing;
         this.type = type;
         this.serving = serving;
     }

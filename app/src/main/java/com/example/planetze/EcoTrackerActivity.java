@@ -43,7 +43,7 @@ public class EcoTrackerActivity extends AccountActivity implements BreakdownView
     int progress = 0;
     boolean started = true;
     private static String date;
-    private double dailyEmission;
+    private static double dailyEmission;
     private ArrayList<Breakdown> activityList;
     private BreakdownAdapter adapter;
 
@@ -187,7 +187,9 @@ public class EcoTrackerActivity extends AccountActivity implements BreakdownView
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
                     dailyEmission = snapshot.getValue(Double.class);
-                    textView.setText(Double.toString(dailyEmission));
+                    textView.setText(String.format("%.2f", dailyEmission));
+                } else {
+                    textView.setText("0.0");
                 }
             }
             @Override
@@ -208,6 +210,7 @@ public class EcoTrackerActivity extends AccountActivity implements BreakdownView
                     if (activity != null) {
                         activity.setId(snapshot.getKey());
                         activityList.add(activity);
+                        Log.d("Fetched Activity", "emission: " + activity.emission);
                     }
                 }
                 adapter.notifyDataSetChanged();
@@ -224,10 +227,15 @@ public class EcoTrackerActivity extends AccountActivity implements BreakdownView
         return date;
     }
 
+    public static double getDailyEmission() {
+        return dailyEmission;
+    }
+
     @Override
     public void onItemClicked(int position, ArrayList<Breakdown> activities) {
         Intent update = new Intent(EcoTrackerActivity.this, RecordActivity.class);
         update.putExtra("id", activities.get(position).getId());
+        update.putExtra("emission", activities.get(position).getEmission());
         startActivity(update);
     }
 }

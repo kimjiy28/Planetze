@@ -3,6 +3,7 @@ package com.example.planetze;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -20,11 +22,16 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,16 +41,14 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 public class RecordActivity extends AccountActivity {
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    // DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
-    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").
-            child("4U6brQiObtULMg94EPA2zN6nH2h1");
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
 
     private String category, activity;
     private static String date;
+    private double dailyEmission;
 
     // Views
     private EditText calendarManagement;
-    private TextView tvCategorySpinner, tvActivitySpinner;
     private Spinner categorySpinner, activitySpinner;
     private ArrayAdapter<CharSequence> categoryAdapter, activityAdapter;
     private BottomNavigationView bottomNavigationView;
@@ -91,12 +96,17 @@ public class RecordActivity extends AccountActivity {
             date = EcoTrackerActivity.getDate();
             calendarManagement.setText(date);
         }
+
         // Edit Activity
         String id = getIntent().getStringExtra("id");
-        if (id != null ) {
+        double emission = getIntent().getDoubleExtra("emission", 0);
+        if (id != null) {
             reference.child(date).child("activities").child(id).removeValue();
+            dailyEmission = EcoTrackerActivity.getDailyEmission();
+            reference.child(date).child("dailyEmission").setValue(dailyEmission - emission);
             Toast.makeText(this, "Update Your Activity", Toast.LENGTH_SHORT).show();
         }
+
         calendarManagement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,19 +197,16 @@ public class RecordActivity extends AccountActivity {
                                     break;
                             }
                         }
-
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
                     });
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
     }
 
     private void addFragment(Fragment fragment) {

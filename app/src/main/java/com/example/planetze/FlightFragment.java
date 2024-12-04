@@ -89,21 +89,7 @@ public class FlightFragment extends Fragment {
                 reference.child(date).child("activities").push().setValue(record);
                 Toast.makeText(getActivity(), "Activity Recorded", Toast.LENGTH_LONG).show();
                 // Update Total Daily Emission
-                reference.child(date).child("dailyEmission")
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.getValue() != null) {
-                                    dailyEmission = snapshot.getValue(Double.class);
-                                    tvFrequency.setText("");
-                                    lengthSpinner.setSelection(0);
-                                    Log.d("Fetched", "Current Daily Emission / " + dailyEmission);
-                                }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
+                dailyEmission = EcoTrackerActivity.getDailyEmission();
                 reference.child(date).child("dailyEmission").setValue(dailyEmission + record.emission);
             }
         });

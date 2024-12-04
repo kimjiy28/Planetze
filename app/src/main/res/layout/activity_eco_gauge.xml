@@ -32,6 +32,8 @@
         android:layout_marginTop="24dp"
         android:layout_marginHorizontal="24dp"
         android:foregroundGravity="center_horizontal"
+        app:sv_centerCircleColor="@color/grey"
+        app:sv_indicatorColor="@color/darkblue"
         app:sv_maxSpeed="100"
         app:sv_unit="kg CO2e"
         app:sv_withTremble="false"
