@@ -51,8 +51,10 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     testImplementation (libs.junit.junit.v412)
     testImplementation(libs.mockito.mockito.all)
-    testImplementation (libs.mockito.mockito.all)
+    testImplementation(libs.mockito.all)
     implementation("androidx.recyclerview:recyclerview:1.3.0")
+
+    testImplementation (libs.mockito.core.v4110)
 
     // BOM for firebase platform
     implementation(platform(libs.firebase.bom))

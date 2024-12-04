@@ -43,7 +43,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             return insets;
         });
 
-        presenter = new LoginPresenter(this);
+        LoginModel model = new LoginModel();
+        presenter = new LoginPresenter(this, model);
 
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
